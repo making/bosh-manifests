@@ -46,7 +46,7 @@ instance_groups:
 - name: db
   instances: 1
   vm_type: default
-  persistent_disk_type: '51200'
+  persistent_disk_type: default
   stemcell: trusty
   azs: [z1]
   networks:

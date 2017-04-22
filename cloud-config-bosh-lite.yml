@@ -11,8 +11,6 @@ compilation:
 disk_types:
 - name: default
   disk_size: 1024
-- name: '51200'
-  disk_size: 51200
 networks:
 - name: default
   subnets:
