@@ -23,8 +23,7 @@ networks:
     reserved: []
     static:
     - 10.244.0.34
-    - 10.244.0.200
-    - 10.244.0.205
+    - 10.244.0.100 - 10.244.0.254
   type: manual
 vm_types:
 - name: default

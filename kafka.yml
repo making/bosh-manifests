@@ -1,0 +1,59 @@
+---
+name: kafka
+
+releases:
+- name: cflogs
+  version: 1
+  # git clone https://github.com/shinji62/cflogs-boshrelease
+  # bosh upload-release cflogs-boshrelease/releases/cflogs/cflogs-1.yml 
+- name: zookeeper
+  version: '0.0.3'
+  url: https://bosh.io/d/github.com/cppforlife/zookeeper-release?v=0.0.3
+  sha1: ae79ed352a4e0bdf398d188d6944fbb782668c7e
+
+stemcells:
+- alias: trusty
+  os: ubuntu-trusty
+  version: latest
+
+update:
+  canaries: 1
+  max_in_flight: 10
+  canary_watch_time: 1000-30000
+  update_watch_time: 1000-30000
+
+instance_groups:
+- name: zookeeper
+  instances: 3
+  azs: [z1]
+  jobs:
+  - name: zookeeper
+    release: zookeeper
+    provides:
+      peers: {as: peers}
+    properties:
+      max_client_connections: 200
+  vm_type: default
+  stemcell: trusty
+  persistent_disk_type: default
+  networks:
+  - name: default
+    static_ips:
+    - 10.244.0.120
+    - 10.244.0.121
+    - 10.244.0.122
+- name: kafka
+  instances: 3
+  azs: [z1]
+  jobs:
+  - name: kafka
+    release: cflogs
+  vm_type: default
+  stemcell: trusty
+  persistent_disk_type: default
+  networks:
+  - name: default
+    static_ips:
+    - 10.244.0.130
+    - 10.244.0.131
+    - 10.244.0.132
