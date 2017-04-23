@@ -24,6 +24,7 @@ networks:
     static:
     - 10.244.0.34
     - 10.244.0.200
+    - 10.244.0.205
   type: manual
 vm_types:
 - name: default

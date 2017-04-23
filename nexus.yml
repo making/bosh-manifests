@@ -1,0 +1,38 @@
+---
+# bosh interpolate concourse.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200
+# bosh deploy -d concourse --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 concourse.yml
+
+name: nexus
+
+releases:
+- name: nexus
+  version: 0.0.1
+  url: https://github.com/making/nexus-boshrelease/releases/download/0.0.1/nexus-0.0.1.tgz
+  sha1: 7c14d1ba9cd966b0fc13f76c9b2186c1a1aebc92
+
+stemcells:
+- alias: trusty
+  os: ubuntu-trusty
+  version: latest
+
+instance_groups:
+- name: nexus
+  instances: 1
+  vm_type: default
+  persist_disk: default
+  stemcell: trusty
+  azs: [z1]
+  networks:
+  - name: default
+    static_ips: [((internal_ip))]
+  jobs:
+  - name: nexus
+    release: nexus
+
+update:
+  canaries: 1
+  max_in_flight: 1
+  serial: false
+  canary_watch_time: 1000-60000
+  update_watch_time: 1000-60000
+
