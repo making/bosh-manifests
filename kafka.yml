@@ -3,9 +3,9 @@ name: kafka
 
 releases:
 - name: cflogs
-  version: 1
+  version: 2
   # git clone https://github.com/shinji62/cflogs-boshrelease
-  # bosh upload-release cflogs-boshrelease/releases/cflogs/cflogs-1.yml 
+  # bosh upload-release cflogs-boshrelease/releases/cflogs/cflogs-2.yml 
 - name: zookeeper
   version: '0.0.3'
   url: https://bosh.io/d/github.com/cppforlife/zookeeper-release?v=0.0.3
@@ -57,3 +57,15 @@ instance_groups:
     - 10.244.0.130
     - 10.244.0.131
     - 10.244.0.132
+- name: kafka-manager
+  instances: 1
+  azs: [z1]
+  jobs:
+  - name: kafka-manager
+    release: cflogs
+  vm_type: default
+  stemcell: trusty
+  networks:
+  - name: default
+    static_ips:
+    - 10.244.0.140
