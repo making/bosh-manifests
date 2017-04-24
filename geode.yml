@@ -1,0 +1,52 @@
+---
+name: geode
+
+releases:
+- name: geode
+  version: 0.0.4
+  url: https://github.com/making/geode-boshrelease/releases/download/0.0.4/geode-boshrelease-0.0.4.tgz
+  sha1: e0c9ed5faf11bcf1a8756efe3cd93d06496efa2a
+
+stemcells:
+- alias: trusty
+  os: ubuntu-trusty
+  version: latest
+
+update:
+  canaries: 2
+  max_in_flight: 1
+  canary_watch_time: 5000-60000
+  update_watch_time: 5000-60000
+
+instance_groups:
+- name: locator
+  azs: [z1]
+  instances: 2
+  jobs:
+  - name: locator
+    release: geode
+    properties: {}
+  vm_type: default
+  stemcell: trusty
+  persistent_disk_type: default
+  networks:
+  - name: default
+    static_ips:
+    - 10.244.0.150
+    - 10.244.0.151
+- name: server
+  azs: [z1]
+  instances: 3
+  jobs:
+  - name: server
+    release: geode
+    properties: {}
+  vm_type: default
+  stemcell: trusty
+  persistent_disk_type: default
+  networks:
+  - name: default
+    static_ips:
+    - 10.244.0.160
+    - 10.244.0.161
+    - 10.244.0.162
