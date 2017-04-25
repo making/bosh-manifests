@@ -3,9 +3,9 @@ name: kafka
 
 releases:
 - name: cflogs
-  version: 2
-  # git clone https://github.com/shinji62/cflogs-boshrelease
-  # bosh upload-release cflogs-boshrelease/releases/cflogs/cflogs-2.yml 
+  version: 3
+  url: https://github.com/shinji62/cflogs-boshrelease/releases/download/v3/cflogs.tar.gz
+  sha1: 36b246b5877a318f955c4cc141473c335dadd8f3
 - name: zookeeper
   version: '0.0.3'
   url: https://bosh.io/d/github.com/cppforlife/zookeeper-release?v=0.0.3
