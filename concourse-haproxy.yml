@@ -37,6 +37,7 @@ instance_groups:
       basic_auth_password: ((ui_password))
       bind_port: 80
       postgresql_database: &atc_db atc
+      encryption_key: ((encryption_key))
   - name: tsa
     release: concourse
     properties: {}
