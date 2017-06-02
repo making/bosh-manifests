@@ -6,13 +6,13 @@ name: concourse
 
 releases:
 - name: concourse
-  version: 2.7.3
-  url: https://bosh.io/d/github.com/concourse/concourse?v=2.7.3
-  sha1: ca38944353c893660a428cc6678941734b51b036
+  version: 3.1.1
+  url: https://bosh.io/d/github.com/concourse/concourse?v=3.1.1
+  sha1: d796ed9059dc6d97aec9dcbf13c2529c53149692
 - name: garden-runc
-  version: 1.4.0
-  url: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=1.4.0
-  sha1: 1d6020e761806d7f355ceda06c889c582b47dc32
+  version: 1.6.0
+  url: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=1.6.0
+  sha1: 58fbc64aff303e6d76899441241dd5dacef50cb7
 
 stemcells:
 - alias: trusty
@@ -35,10 +35,7 @@ instance_groups:
       external_url: &external_url https://((external_ip))
       basic_auth_username: admin
       basic_auth_password: ((ui_password))
-      # tls_cert: ((atc_ssl.certificate))
-      # tls_key: ((atc_ssl.private_key))
       bind_port: 80
-      # tls_bind_port: 443
       postgresql_database: &atc_db atc
   - name: tsa
     release: concourse
