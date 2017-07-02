@@ -1,14 +1,15 @@
 ---
 # bosh interpolate concourse-haproxy.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com
+# bosh deploy -d concourse -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com concourse-haproxy.yml # CredHub
 # bosh deploy -d concourse --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com concourse-haproxy.yml
 
 name: concourse
 
 releases:
 - name: concourse
-  version: 3.1.1
-  url: https://bosh.io/d/github.com/concourse/concourse?v=3.1.1
-  sha1: d796ed9059dc6d97aec9dcbf13c2529c53149692
+  version: 3.3.0
+  url: https://bosh.io/d/github.com/concourse/concourse?v=3.3.0
+  sha1: f0b5ab73ba26e9cc72c8989d20ae2e8d994f18c4
 - name: garden-runc
   version: 1.6.0
   url: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=1.6.0
@@ -37,7 +38,8 @@ instance_groups:
       basic_auth_password: ((ui_password))
       bind_port: 80
       postgresql_database: &atc_db atc
-      encryption_key: ((encryption_key))
+      # encryption_key: ((encryption_key))
+      old_encryption_key: ((old_encryption_key))
   - name: tsa
     release: concourse
     properties: {}
@@ -101,3 +103,11 @@ variables:
   type: password
 - name: ui_password
   type: password
+- name: encryption_key
+  type: password
+  options:
+    length: 16
+- name: old_encryption_key
+  type: password
+  options:
+    length: 16
