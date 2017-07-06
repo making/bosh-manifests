@@ -6,9 +6,9 @@ name: nexus
 
 releases:
 - name: nexus
-  version: 0.1.0
-  url: https://github.com/making/nexus-boshrelease/releases/download/0.1.0/nexus-0.1.0.tgz
-  sha1: 5270ea55682e0d572cb1c785e6f2329c29b6921e
+  version: 0.2.0
+  url: https://github.com/making/nexus-boshrelease/releases/download/0.2.0/nexus-0.2.0.tgz
+  sha1: ba99b2e11b3d1d5ccbaccdde0df08f3a19e65a18
 
 stemcells:
 - alias: trusty
@@ -27,6 +27,8 @@ instance_groups:
     static_ips: [((internal_ip))]
   jobs:
   - name: nexus
+    release: nexus
+  - name: nexus-backup
     release: nexus
 
 update:
