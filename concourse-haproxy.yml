@@ -1,15 +1,15 @@
 ---
 # bosh interpolate concourse-haproxy.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com
-# bosh deploy -d concourse -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com concourse-haproxy.yml # CredHub
-# bosh deploy -d concourse --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com concourse-haproxy.yml
+# bosh deploy -d concourse concourse-haproxy.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com # CredHub
+# bosh deploy -d concourse concourse-haproxy.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com
 
 name: concourse
 
 releases:
 - name: concourse
-  version: 3.3.0
-  url: https://bosh.io/d/github.com/concourse/concourse?v=3.3.0
-  sha1: f0b5ab73ba26e9cc72c8989d20ae2e8d994f18c4
+  version: 3.3.1
+  url: https://bosh.io/d/github.com/concourse/concourse?v=3.3.1
+  sha1: 60e6c5e1806eee48931091566a56bd0897090e28
 - name: garden-runc
   version: 1.6.0
   url: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=1.6.0
