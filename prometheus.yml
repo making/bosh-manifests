@@ -202,7 +202,10 @@ instance_groups:
   #   release: prometheus
   - name: haproxy_exporter
     release: prometheus
-
+    properties:
+      haproxy_exporter:
+        haproxy:
+          scrape_uri: http://192.168.50.1/haproxy?stats;csv
 
 variables:
 - name: prometheus_password
