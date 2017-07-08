@@ -37,6 +37,7 @@ instance_groups:
       basic_auth_password: ((ui_password))
       tls_cert: ((atc_ssl.certificate))
       tls_key: ((atc_ssl.private_key))
+      encryption_key: ((encryption_key))
       bind_port: 80
       tls_bind_port: 443
       postgresql_database: &atc_db atc
@@ -103,3 +104,7 @@ variables:
   type: password
 - name: ui_password
   type: password
+- name: encryption_key
+  type: password
+  options:
+    length: 16
