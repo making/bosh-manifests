@@ -111,6 +111,24 @@ instance_groups:
         - /var/vcap/jobs/probe_alerts/*.alerts
         - /var/vcap/jobs/prometheus_alerts/*.alerts
         scrape_configs:
+          - job_name: blog
+            scrape_interval: 30s
+            scrape_timeout: 10s
+            metrics_path: /prometheus
+            scheme: https
+            static_configs:
+            - targets:
+              - prom-exporter-metrics-forwarder.cfapps.pez.pivotal.io:443
+            bearer_token: ((metrics_token_blog))
+          - job_name: apj-dev
+            scrape_interval: 30s
+            scrape_timeout: 10s
+            metrics_path: /prometheus
+            scheme: https
+            static_configs:
+            - targets:
+              - prom-exporter-metrics-forwarder.cfapps.io:443
+            bearer_token: ((metrics_token_apj_dev))
           - job_name: bosh
             scrape_interval: 1m
             scrape_timeout: 1m
@@ -208,6 +226,10 @@ instance_groups:
           scrape_uri: http://192.168.50.1/haproxy?stats;csv
 
 variables:
+- name: metrics_token_blog
+  type: password
+- name: metrics_token_apj_dev
+  type: password
 - name: prometheus_password
   type: password
 - name: alert_manager_password
