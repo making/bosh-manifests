@@ -1,6 +1,6 @@
 ---
-# bosh interpolate prometheus.yml -v internal_ip=10.244.0.205 -v bosh_url= -v uaa_url=
-# bosh deploy -d prometheus prometheus.yml -v internal_ip=10.244.0.205 -v bosh_url=192.168.50.6 -v uaa_url=192.168.50.6
+# bosh interpolate prometheus.yml -v internal_ip=10.244.0.215 -v bosh_url=https://192.168.50.6:25555 -v uaa_url=https://192.168.50.6:8443
+# bosh deploy -d prometheus prometheus.yml -v internal_ip=10.244.0.215 -v bosh_url=https://192.168.50.6:25555 -v uaa_url=https://192.168.50.6:8443
 name: prometheus
 
 releases:
@@ -22,7 +22,7 @@ instance_groups:
   azs: [z1]
   networks:
   - name: default
-    static_ips: ((static_ips))
+    static_ips: ((internal_ip))
   jobs:
   - name: nginx
     release: prometheus
@@ -39,7 +39,7 @@ instance_groups:
   vm_type: default
   stemcell: trusty
   persistent_disk_type: default
-  azs: [az1]
+  azs: [z1]
   networks:
   - name: default
   jobs:
@@ -190,13 +190,14 @@ instance_groups:
         bosh:
           uaa:
             url: ((uaa_url))
-            client_id: ((uaa_client_id))
+            client_id: prometheus-bosh
             client_secret: ((uaa_client_secret))
           url: ((bosh_url))
-          ca_cert: ((bosh_ca_cert))
+          ca_cert: ((bosh_ca.certificate))
+        filter:
           collectors: Deployments,Jobs,ServiceDiscovery
         metrics:
-          environment: cf
+          environment: bosh
   # - name: bosh_tsdb_exporter
   #   release: prometheus
   - name: haproxy_exporter
@@ -210,12 +211,13 @@ variables:
   type: password
 - name: grafana_password
   type: password
-- name: uaa_client_id # credhub set -n "/Bosh Lite Director/prometheus/uaa_client_id" -t value -c ~/director_ca -v <...>
-  type: vaule
 - name: uaa_client_secret # credhub set -n "/Bosh Lite Director/prometheus/uaa_client_secret" -t password -w <...>
   type: password
-- name: bosh_ca_cert # credhub set -n "/Bosh Lite Director/prometheus/bosh_ca_cert" -t certificate -c ~/director_ca 
-  type: vaule
+- name: bosh_ca # credhub set -n "/Bosh Lite Director/prometheus/bosh_ca" -t certificate -c ~/director_ca 
+  type: certificate
+  options:
+    is_ca: true
+    common_name: ca
 
 update:
   canaries: 1
