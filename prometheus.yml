@@ -117,20 +117,20 @@ instance_groups:
             static_configs:
               - targets:
                 - localhost:9190
-          - job_name: bosh_tsdb
-            file_sd_configs:
-            - files:
-              - "/var/vcap/store/bosh_exporter/bosh_target_groups.json"
-            relabel_configs:
-            - source_labels:
-              - __meta_bosh_job_process_name
-              regex: bosh_tsdb_exporter
-              action: keep
-            - source_labels:
-              - __address__
-              regex: "(.*)"
-              target_label: __address__
-              replacement: "${1}:9194"
+          # - job_name: bosh_tsdb
+          #   file_sd_configs:
+          #   - files:
+          #     - "/var/vcap/store/bosh_exporter/bosh_target_groups.json"
+          #   relabel_configs:
+          #   - source_labels:
+          #     - __meta_bosh_job_process_name
+          #     regex: bosh_tsdb_exporter
+          #     action: keep
+          #   - source_labels:
+          #     - __address__
+          #     regex: "(.*)"
+          #     target_label: __address__
+          #     replacement: "${1}:9194"
           - job_name: haproxy
             file_sd_configs:
             - files:
