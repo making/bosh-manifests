@@ -59,6 +59,8 @@ instance_groups:
     release: prometheus
   properties:
     grafana:
+      users:
+        allow_sign_up: false	
       security:
         admin_password: ((grafana_password))
       dashboards:
