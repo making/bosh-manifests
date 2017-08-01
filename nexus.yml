@@ -6,9 +6,9 @@ name: nexus
 
 releases:
 - name: nexus
-  version: 0.2.0
-  url: https://github.com/making/nexus-boshrelease/releases/download/0.2.0/nexus-0.2.0.tgz
-  sha1: ba99b2e11b3d1d5ccbaccdde0df08f3a19e65a18
+  version: 0.3.2
+  url: https://github.com/making/nexus-boshrelease/releases/download/0.3.2/nexus-0.3.2.tgz
+  sha1: 0e2c2893c8cb12efd878cdbf3a07691567413be0
 
 stemcells:
 - alias: trusty
