@@ -1,0 +1,17 @@
+# bosh update-runtime-config <(bosh int runtime-config.yml -o ops-files/addons/fim.yml)
+
+- type: replace
+  path: /releases/-
+  value:
+    name: fim
+    version: 1.2.1
+    url: file:///opt/bosh/fim-1.2.1.tgz 
+    sha1: 24712bb1e307000709816f5e31970f8632d1f3fb
+
+- type: replace
+  path: /addons/-
+  value:
+    name: fim
+    jobs:
+    - name: fim
+      release: fim
