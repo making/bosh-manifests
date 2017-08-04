@@ -1,0 +1,37 @@
+---
+# bosh interpolate reactive-syslog-server.yml -v internal_ip=10.244.0.230
+# bosh deploy -d reactive-syslog-server reactive-syslog-server.yml -v internal_ip=10.244.0.230
+
+name: reactive-syslog-server
+
+releases:
+- name: reactive-syslog-server
+  version: 0.0.5
+  url: https://github.com/making/reactive-syslog-server-boshrelease/releases/download/0.0.5/reactive-syslog-server-0.0.5.tgz
+  sha1: 84450464edfd92739ac47e2b7ca50dec8d5fb7b4
+
+stemcells:
+- alias: trusty
+  os: ubuntu-trusty
+  version: latest
+
+instance_groups:
+- name: reactive-syslog-server
+  instances: 1
+  vm_type: default
+  persist_disk: default
+  stemcell: trusty
+  azs: [z1]
+  networks:
+  - name: default
+    static_ips: [((internal_ip))]
+  jobs:
+  - name: reactive-syslog-server
+    release: reactive-syslog-server
+
+update:
+  canaries: 1
+  max_in_flight: 1
+  serial: false
+  canary_watch_time: 1000-60000
+  update_watch_time: 1000-60000
