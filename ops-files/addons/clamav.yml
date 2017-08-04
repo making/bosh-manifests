@@ -1,0 +1,23 @@
+# bosh update-runtime-config <(bosh int runtime-config.yml -o ops-files/addons/clamav.yml)
+
+- type: replace
+  path: /releases/-
+  value:
+    name: clamav
+    version: 1.2.7
+    url: file:///opt/bosh/clamav-1.2.7.tgz
+    sha1: 61b8fc5a910a4ed3f5c8194c162cf84962cbc41c
+
+- type: replace
+  path: /addons/-
+  value:
+    name: clamav
+    jobs:
+    - name: clamav
+      release: clamav
+    properties:
+      clamav:
+        scheduled: yes
+        # on_access: yes
+        # action: move
+        # action_destination: /var/vcap/data/clamav/found
