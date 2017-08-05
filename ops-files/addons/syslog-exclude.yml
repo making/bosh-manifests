@@ -3,8 +3,6 @@
 - type: replace
   path: /addons/name=logs/exclude
   value:
-    jobs:
-    - name: worker
-      release: concourse
-    - name: reactive-syslog-server
-      release: reactive-syslog-server
+    deployments:
+    - concourse
+    - reactive-syslog-server

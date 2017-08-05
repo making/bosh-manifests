@@ -1,7 +1,7 @@
 ---
-# bosh interpolate concourse-haproxy.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com
-# bosh deploy -d concourse concourse-haproxy.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com # CredHub
-# bosh deploy -d concourse concourse-haproxy.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com
+# bosh interpolate concourse-haproxy.yml -o ops-files/concourse-bbr.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com
+# bosh deploy -d concourse concourse-haproxy.yml -o ops-files/concourse-bbr.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com # CredHub
+# bosh deploy -d concourse concourse-haproxy.yml -o ops-files/concourse-bbr.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com
 
 name: concourse
 
@@ -14,10 +14,6 @@ releases:
   version: 1.6.0
   url: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=1.6.0
   sha1: 58fbc64aff303e6d76899441241dd5dacef50cb7
-- name: concourse-bbr
-  version: 0.3.0
-  url: https://github.com/making/concourse-bbr-boshrelease/releases/download/0.3.0/concourse-bbr-0.3.0.tgz
-  sha1: 1ef264e56c315836051c1c5c675c60427f9320e5
 
 stemcells:
 - alias: trusty
@@ -63,8 +59,6 @@ instance_groups:
       - name: *atc_db
         role: atc
         password: ((postgres_password))
-  - name: db-backup
-    release: concourse-bbr
 - name: worker
   instances: 1
   vm_type: default

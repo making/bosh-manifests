@@ -1,6 +1,6 @@
 ---
-# bosh interpolate concourse.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200
-# bosh deploy -d concourse --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 concourse.yml
+# bosh interpolate concourse.yml -o ops-files/concourse-bbr.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200
+# bosh deploy -d concourse -o ops-files/concourse-bbr.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 concourse.yml
 
 name: concourse
 
