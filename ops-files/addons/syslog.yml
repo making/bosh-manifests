@@ -15,12 +15,6 @@
     jobs:
     - name: syslog_forwarder
       release: syslog
-    exclude:
-      jobs:
-      - name: worker
-        release: concourse
-      - name: reactive-syslog-server
-        release: reactive-syslog-server
     properties:
       syslog:
         address: ((syslog_address))
