@@ -1,7 +1,7 @@
 # bosh update-runtime-config <(bosh int runtime-config.yml -o ops-files/addons/syslog.yml -o ops-files/addons/syslog-exclude.yml -v syslog_address=10.244.0.230 -v syslog_port=10514)
 
 - type: replace
-  path: /addons/name=logs/exclude
+  path: /addons/name=logs/exclude?
   value:
     deployments:
     - concourse
