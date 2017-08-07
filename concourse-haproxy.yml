@@ -1,6 +1,7 @@
 ---
 # bosh interpolate concourse-haproxy.yml -o ops-files/concourse-bbr.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com
 # bosh deploy -d concourse concourse-haproxy.yml -o ops-files/concourse-bbr.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com # CredHub
+# bosh deploy -d concourse concourse-haproxy.yml -o ops-files/concourse-bbr.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.ik.am -o ops-files/concourse-vault.yml -v vault_url=https://cf-vault.cfapps.io # CredHub and Vault
 # bosh deploy -d concourse concourse-haproxy.yml -o ops-files/concourse-bbr.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com
 
 name: concourse
