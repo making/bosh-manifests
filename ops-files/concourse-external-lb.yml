@@ -1,0 +1,8 @@
+- type: remove
+  path: /instance_groups/name=web/jobs/name=atc/properties/tls_cert
+
+- type: remove
+  path: /instance_groups/name=web/jobs/name=atc/properties/tls_key
+
+- type: remove
+  path: /instance_groups/name=web/jobs/name=atc/properties/tls_bind_port

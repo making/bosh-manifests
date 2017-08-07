@@ -1,6 +1,9 @@
 ---
-# bosh interpolate concourse.yml -o ops-files/concourse-bbr.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200
-# bosh deploy -d concourse -o ops-files/concourse-bbr.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 concourse.yml
+# bosh deploy -d concourse concourse.yml -o ops-files/concourse-bbr.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com --vars-store ./creds-concourse.yml
+# bosh deploy -d concourse concourse.yml -o ops-files/concourse-external-lb.yml -o ops-files/concourse-bbr.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com --vars-store ./creds-concourse.yml # HA Proxy
+# bosh deploy -d concourse concourse.yml -o ops-files/concourse-external-lb.yml -o ops-files/concourse-bbr.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.ik.am # CredHub
+# bosh deploy -d concourse concourse.yml -o ops-files/concourse-external-lb.yml -o ops-files/concourse-bbr.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.ik.am -o ops-files/concourse-vault.yml -v vault_url=https://cf-vault.cfapps.io # Vault
+
 
 name: concourse
 
@@ -32,15 +35,16 @@ instance_groups:
   - name: atc
     release: concourse
     properties:
-      external_url: &external_url https://((internal_ip))
+      external_url: &external_url https://((external_ip))
       basic_auth_username: admin
       basic_auth_password: ((ui_password))
       tls_cert: ((atc_ssl.certificate))
       tls_key: ((atc_ssl.private_key))
-      encryption_key: ((encryption_key))
       bind_port: 80
       tls_bind_port: 443
       postgresql_database: &atc_db atc
+      # encryption_key: ((encryption_key))
+      # old_encryption_key: ((old_encryption_key))
   - name: tsa
     release: concourse
     properties: {}
@@ -98,13 +102,18 @@ variables:
   type: certificate
   options:
     ca: default_ca
-    common_name: ((internal_ip))
-    alternative_names: [((internal_ip))]
+    common_name: ((external_ip))
+    alternative_names: 
+    - ((internal_ip))
 - name: postgres_password
   type: password
 - name: ui_password
   type: password
 - name: encryption_key
+  type: password
+  options:
+    length: 16
+- name: old_encryption_key
   type: password
   options:
     length: 16
