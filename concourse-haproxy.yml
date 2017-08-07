@@ -1,5 +1,5 @@
 ---
-# bosh interpolate concourse-haproxy.yml -o ops-files/concourse-bbr.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com
+# bosh interpolate concourse-haproxy.yml -o ops-files/concourse-bbr.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com
 # bosh deploy -d concourse concourse-haproxy.yml -o ops-files/concourse-bbr.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com # CredHub
 # bosh deploy -d concourse concourse-haproxy.yml -o ops-files/concourse-bbr.yml --vars-store ./creds-concourse.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.example.com
 

@@ -1,0 +1,9 @@
+- type: replace
+  path: /instance_groups/name=web/jobs/name=atc/properties/vault?
+  value:
+    url: ((vault_url))
+    auth:
+      backend: approle
+      params:
+        role_id: ((vault_role_id))
+        secret_id: ((vault_secret_id))
