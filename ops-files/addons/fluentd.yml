@@ -1,0 +1,22 @@
+- type: replace
+  path: /releases/-
+  value:
+    name: fluentd
+    version: 0.0.1
+    url: https://github.com/making/fluentd-boshrelease/releases/download/0.0.1/fluentd-boshrelease-0.0.1.tgz
+    sha1: 68b61bcffb5213587f1abf28185999fe28e59389
+
+- type: replace
+  path: /addons/-
+  value:
+    name: fluentd
+    jobs:
+    - name: fluentd-forwarder
+      release: fluentd
+
+
+- type: replace
+  path: /addons/name=fluentd/exclude?
+  value:
+    deployments:
+    - fluentd
