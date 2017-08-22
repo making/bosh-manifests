@@ -1,0 +1,4 @@
+- type: replace
+  path: /resource_pools/name=vms/cloud_properties
+  value:
+    instance_type: Basic_A1
