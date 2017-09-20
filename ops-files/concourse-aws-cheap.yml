@@ -1,0 +1,11 @@
+- type: replace
+  path: /instance_groups/name=web/vm_type
+  value: t2.micro
+  
+- type: replace
+  path: /instance_groups/name=db/vm_type
+  value: t2.small
+
+- type: replace
+  path: /instance_groups/name=worker/vm_type
+  value: t2.small

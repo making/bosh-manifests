@@ -1,0 +1,27 @@
+# https://github.com/cloudfoundry/bosh-bootloader/blob/master/docs/concourse_aws.md
+- type: replace
+  path: /instance_groups/name=web/vm_extensions?
+  value:
+    - lb
+
+- type: replace
+  path: /instance_groups/name=worker/vm_extensions?
+  value:
+    - 50GB_ephemeral_disk
+
+- type: replace
+  path: /instance_groups/name=db/persistent_disk_type
+  value: 5GB
+
+- type: replace
+  path: /instance_groups/name=web/jobs/name=atc/properties/bind_port
+  value: 8080
+
+- type: remove
+  path: /instance_groups/name=web/networks/name=default/static_ips
+
+- type: remove
+  path: /variables/name=atc_ssl
+
+- type: remove
+  path: /variables/name=default_ca
