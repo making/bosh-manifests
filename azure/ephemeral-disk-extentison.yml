@@ -1,0 +1,8 @@
+- type: replace
+  path: /vm_extensions?/-
+  value:
+    cloud_properties:
+      ephemeral_disk:
+        size: 51_200
+        use_root_disk: false
+    name: 50GB_ephemeral_disk

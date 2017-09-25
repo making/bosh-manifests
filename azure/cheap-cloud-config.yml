@@ -1,9 +1,18 @@
 - type: replace
   path: /vm_types/name=default/cloud_properties/instance_type
-  value: Basic_A1
+  value: Basic_A0
 - type: replace
   path: /vm_types/name=large/cloud_properties/instance_type
   value: Standard_D1_v2
+- type: replace
+  path: /vm_types/name=db?
+  value:
+    name: db
+    cloud_properties:
+      instance_type: Basic_A1
+- type: replace
+  path: /compilation/vm_type
+  value: large
 - type: replace
   path: /networks/name=default/subnets/0/static?
   value: [10.0.16.20-10.0.16.50]

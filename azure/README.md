@@ -29,6 +29,7 @@ bosh create-env bosh-deployment/bosh.yml \
 ```
 bosh update-cloud-config bosh-deployment/azure/cloud-config.yml \
     -o bosh-manifests/azure/cheap-cloud-config.yml \
+    -o bosh-manifests/azure/ephemeral-disk-extentison.yml \
     -v internal_cidr=10.0.16.0/20 \
     -v internal_gw=10.0.16.1 \
     -v vnet_name=boshvnet-crp \
