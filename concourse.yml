@@ -4,6 +4,7 @@
 # bosh deploy -d concourse concourse.yml -o ops-files/concourse-external-lb.yml -o ops-files/concourse-bbr.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.ik.am # CredHub
 # bosh deploy -d concourse concourse.yml -o ops-files/concourse-external-lb.yml -o ops-files/concourse-bbr.yml -v internal_ip=10.244.0.200 -v external_ip=concourse.ik.am -o ops-files/concourse-vault.yml -v vault_url=https://cf-vault.cfapps.io # Vault
 # bosh deploy -d concourse concourse.yml -o ops-files/concourse-external-lb.yml -o ops-files/concourse-aws.yml -o ops-files/concourse-bbr.yml -o ops-files/concourse-aws-cheap.yml -v external_ip=52-198-35-178.sslip.io
+# bosh deploy -d concourse concourse.yml -o ops-files/concourse-azure.yml -o ops-files/concourse-bbr.yml -v vip=13.71.130.229 -v external_ip=concourse.ik.am
 
 name: concourse
 

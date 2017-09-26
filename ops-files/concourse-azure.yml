@@ -1,0 +1,34 @@
+- type: replace
+  path: /instance_groups/name=web/networks
+  value:
+    - name: default
+      default:
+      - dns
+      - gateway
+    - name: vip
+      static_ips: [((vip))]
+
+- type: replace
+  path: /instance_groups/name=web/jobs/name=atc/properties/bind_port
+  value: 80
+
+- type: replace
+  path: /instance_groups/name=worker/vm_type
+  value: large
+
+- type: replace
+  path: /instance_groups/name=worker/vm_extensions?
+  value:
+    - 50GB_ephemeral_disk
+
+- type: replace
+  path: /instance_groups/name=db/vm_type
+  value: db
+
+- type: replace
+  path: /instance_groups/name=db/persistent_disk_type
+  value: default
+
+- type: remove
+  path: /variables/name=atc_ssl/options/alternative_names
+
