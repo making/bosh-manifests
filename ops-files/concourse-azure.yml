@@ -14,7 +14,11 @@
 
 - type: replace
   path: /instance_groups/name=worker/vm_type
-  value: large
+  value: small
+
+- type: replace
+  path: /instance_groups/name=worker/instances
+  value: 3
 
 - type: replace
   path: /instance_groups/name=worker/vm_extensions?
@@ -23,7 +27,7 @@
 
 - type: replace
   path: /instance_groups/name=db/vm_type
-  value: db
+  value: small
 
 - type: replace
   path: /instance_groups/name=db/persistent_disk_type

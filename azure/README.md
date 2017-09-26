@@ -7,7 +7,9 @@ bosh create-env bosh-deployment/bosh.yml \
     -o bosh-deployment/azure/cpi.yml \
     -o bosh-deployment/uaa.yml \
     -o bosh-deployment/credhub.yml \
+    -o bosh-deployment/jumpbox-user.yml \
     -o bosh-manifests/azure/cheap-director.yml \
+    -o bosh-manifests/prometheus/manifests/operators/bosh/add-bosh-exporter-uaa-clients.yml \
     -v director_name=bosh-1 \
     -v internal_cidr=10.0.0.0/24 \
     -v internal_gw=10.0.0.1 \

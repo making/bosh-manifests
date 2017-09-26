@@ -7,7 +7,7 @@
 - type: replace
   path: /vm_types/name=db?
   value:
-    name: db
+    name: small
     cloud_properties:
       instance_type: Basic_A1
 - type: replace

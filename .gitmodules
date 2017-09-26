@@ -1,0 +1,3 @@
+[submodule "prometheus"]
+	path = prometheus
+	url = git@github.com:cloudfoundry-community/prometheus-boshrelease.git
