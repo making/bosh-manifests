@@ -1,0 +1,35 @@
+---
+# bosh deploy -d syslog-server syslog-storer.yml
+
+name: syslog-storer
+
+releases:
+- name: syslog
+  version: 11
+  url: https://bosh.io/d/github.com/cloudfoundry/syslog-release?v=11
+  sha1: 332ac15609b220a3fdf5efad0e0aa069d8235788
+
+stemcells:
+- alias: trusty
+  os: ubuntu-trusty
+  version: latest
+
+instance_groups:
+- name: syslog-storer
+  instances: 1
+  vm_type: small
+  persist_disk: default
+  stemcell: trusty
+  azs: [z1]
+  networks:
+  - name: default
+  jobs:
+  - name: syslog_storer
+    release: syslog
+
+update:
+  canaries: 1
+  max_in_flight: 1
+  serial: false
+  canary_watch_time: 1000-60000
+  update_watch_time: 1000-60000

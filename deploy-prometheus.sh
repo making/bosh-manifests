@@ -8,6 +8,7 @@ bosh deploy -d prometheus prometheus/manifests/prometheus.yml  \
             -o prometheus/manifests/operators/monitor-influxdb.yml \
             -o prometheus/manifests/operators/monitor-concourse.yml \
             -o prometheus/manifests/operators/alertmanager-slack-receiver.yml \
+            -o ops-files/prometheus-disable-postgres.yml \
             -v bosh_url=10.0.0.6 \
             --var-file bosh_ca_cert=~/default_ca \
             -v bosh_username=admin \
