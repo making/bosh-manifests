@@ -1,0 +1,111 @@
+- type: replace
+  path: /instance_groups/name=alertmanager/persistent_disk_type
+  value: "5120"
+
+- type: replace
+  path: /instance_groups/name=alertmanager/vm_type
+  value: micro
+
+- type: replace
+  path: /instance_groups/name=alertmanager/azs/0
+  value: asia-east1-c
+
+- type: replace
+  path: /instance_groups/name=alertmanager/networks/0/name
+  value: opsmgr
+
+- type: replace
+  path: /instance_groups/name=alertmanager/vm_extensions?/-
+  value: public_ip
+
+- type: replace
+  path: /instance_groups/name=prometheus/persistent_disk_type
+  value: "5120"
+
+- type: replace
+  path: /instance_groups/name=prometheus/vm_type
+  value: micro
+
+- type: replace
+  path: /instance_groups/name=prometheus/azs/0
+  value: asia-east1-c
+
+- type: replace
+  path: /instance_groups/name=prometheus/networks/0/name
+  value: opsmgr
+
+- type: replace
+  path: /instance_groups/name=prometheus/vm_extensions?/-
+  value: public_ip
+
+- type: replace
+  path: /instance_groups/name=database/persistent_disk_type
+  value: "5120"
+
+- type: replace
+  path: /instance_groups/name=database/vm_type
+  value: micro
+
+- type: replace
+  path: /instance_groups/name=database/azs/0
+  value: asia-east1-c
+
+- type: replace
+  path: /instance_groups/name=database/networks/0/name
+  value: opsmgr
+
+- type: replace
+  path: /instance_groups/name=database/vm_extensions?/-
+  value: public_ip
+
+- type: replace
+  path: /instance_groups/name=grafana/persistent_disk_type
+  value: "5120"
+
+- type: replace
+  path: /instance_groups/name=grafana/vm_type
+  value: micro
+
+- type: replace
+  path: /instance_groups/name=grafana/azs/0
+  value: asia-east1-c
+
+- type: replace
+  path: /instance_groups/name=grafana/networks/0/name
+  value: opsmgr
+
+- type: replace
+  path: /instance_groups/name=grafana/vm_extensions?/-
+  value: public_ip
+
+- type: replace
+  path: /instance_groups/name=nginx/vm_type
+  value: micro
+
+- type: replace
+  path: /instance_groups/name=nginx/azs/0
+  value: asia-east1-c
+
+- type: replace
+  path: /instance_groups/name=nginx/networks/0/name
+  value: opsmgr
+
+- type: replace
+  path: /instance_groups/name=nginx/vm_extensions?/-
+  value: public_ip
+
+- type: replace
+  path: /instance_groups/name=firehose/vm_type
+  value: micro
+  
+- type: replace
+  path: /instance_groups/name=firehose/azs/0
+  value: asia-east1-c
+
+- type: replace
+  path: /instance_groups/name=firehose/networks/0/name
+  value: opsmgr
+
+- type: replace
+  path: /instance_groups/name=firehose/vm_extensions?/-
+  value: public_ip
