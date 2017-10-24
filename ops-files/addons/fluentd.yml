@@ -2,21 +2,30 @@
   path: /releases/-
   value:
     name: fluentd
-    version: 0.0.1
-    url: https://github.com/making/fluentd-boshrelease/releases/download/0.0.1/fluentd-boshrelease-0.0.1.tgz
-    sha1: 68b61bcffb5213587f1abf28185999fe28e59389
+    version: 0.0.9
+    url: https://github.com/making/fluentd-boshrelease/releases/download/0.0.9/fluentd-boshrelease-0.0.9.tgz
+    sha1: acbd011aa4acaaa16745b05d85987e1b5a41f67f
 
 - type: replace
   path: /addons/-
   value:
     name: fluentd
     jobs:
-    - name: fluentd-forwarder
+    - name: fluentd
       release: fluentd
-
+      properties:
+        aws:
+          access_key: ((/aws/access_key))
+          access_secret_key: ((/aws/access_secret_key))
+          region: ap-northeast-1
+        out_cloudwatch_logs:
+          enabled: true
+        out_file:
+          enabled: false
 
 - type: replace
   path: /addons/name=fluentd/exclude?
   value:
     deployments:
     - fluentd
+    - fluentd-dev
