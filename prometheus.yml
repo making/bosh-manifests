@@ -193,6 +193,10 @@ instance_groups:
               regex: "(.*)"
               target_label: __address__
               replacement: "${1}:9090"
+          - job_name: influxdb
+            static_configs:
+              - targets:
+                - localhost:9122
   - name: bosh_alerts
     release: prometheus
   - name: concourse_alerts
@@ -202,6 +206,8 @@ instance_groups:
   - name: probe_alerts
     release: prometheus
   - name: prometheus_alerts
+    release: prometheus
+  - name: influxdb_exporter
     release: prometheus
   - name: bosh_exporter
     release: prometheus
