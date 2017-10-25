@@ -1,2 +1,4 @@
 creds*.yml
+*creds.yml
 *-vars.yml
+*state.json

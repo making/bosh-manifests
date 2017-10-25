@@ -1,14 +1,14 @@
 #!/bin/sh
 
-bosh create-env ../bosh-deployment/bosh.yml \
-     --state=../state.json \
-     --vars-store=../creds.yml \
-     -o ../bosh-deployment/azure/cpi.yml \
-     -o ../bosh-deployment/uaa.yml \
-     -o ../bosh-deployment/credhub.yml \
-     -o ../bosh-deployment/jumpbox-user.yml \
-     -o ./azure/cheap-director.yml \
-     -o ./prometheus/manifests/operators/bosh/add-bosh-exporter-uaa-clients.yml \
+bosh create-env bosh-deployment/bosh.yml \
+     --state=bosh-azure-state.json \
+     --vars-store=bosh-azure-creds.yml \
+     -o bosh-deployment/azure/cpi.yml \
+     -o bosh-deployment/uaa.yml \
+     -o bosh-deployment/credhub.yml \
+     -o bosh-deployment/jumpbox-user.yml \
+     -o azure/cheap-director.yml \
+     -o prometheus/manifests/operators/bosh/add-bosh-exporter-uaa-clients.yml \
      -v director_name=bosh-1 \
      -v internal_cidr=10.0.0.0/24 \
      -v internal_gw=10.0.0.1 \
