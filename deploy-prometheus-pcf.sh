@@ -1,11 +1,11 @@
 #!/bin/bash
 
-bosh2 -n deploy -d prometheus prometheus/manifests/prometheus.yml  \
-            -o prometheus/manifests/operators/monitor-cf.yml \
+bosh2 -n deploy -d prometheus prometheus-boshrelease/manifests/prometheus.yml  \
+            -o prometheus-boshrelease/manifests/operators/monitor-cf.yml \
             -o ops-files/prometheus-pcf.yml \
-            -o prometheus/manifests/operators/monitor-bosh.yml \
-            -o prometheus/manifests/operators/enable-bosh-uaa.yml \
-            -o prometheus/manifests/operators/use-sqlite3.yml \
+            -o prometheus-boshrelease/manifests/operators/monitor-bosh.yml \
+            -o prometheus-boshrelease/manifests/operators/enable-bosh-uaa.yml \
+            -o prometheus-boshrelease/manifests/operators/use-sqlite3.yml \
             -v bosh_url=10.0.0.10 \
             --var-file bosh_ca_cert=/var/tempest/workspaces/default/root_ca_certificate \
             -v uaa_bosh_exporter_client_secret=prometheus-client-secret \
