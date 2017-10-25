@@ -1,3 +1,4 @@
+# bosh deploy -d p-rabbitmq p-rabbitmq.yml -v system_domain=202-241-169-198.sslip.io --no-redact
 ---
 name: p-rabbitmq
 
@@ -6,10 +7,16 @@ releases:
   version: 233.0.0
   url: https://bosh.io/d/github.com/pivotal-cf/cf-rabbitmq-release?v=233.0.0
   sha1: b5624d0528eec6aa4fb62c232687cd4e94644eb1
+- name: cf-rabbitmq-multitenant-broker
+  version: 7.0.0
+  url: https://bosh.io/d/github.com/pivotal-cf/cf-rabbitmq-multitenant-broker-release?v=7.0.0
+  sha1: 4c5747509d9c4453a0d58fad99cccf24d88c7e17
 - name: routing
   version: 0.164.0
   url: https://storage.googleapis.com/cf-deployment-compiled-releases/routing-0.164.0-ubuntu-trusty-3468-20171010-235350-961424699.tgz
   sha1: 1c31a19ca9718ba070620d090c684747c7529686
+
+
 
 stemcells:
 - alias: trusty
@@ -26,8 +33,6 @@ instance_groups:
       rabbitmq-server:
         plugins:
         - rabbitmq_management
-        - rabbitmq_mqtt
-        - rabbitmq_stomp
         ports:
         - 5672
         - 5671
@@ -71,19 +76,140 @@ instance_groups:
           port: 15672
           registration_interval: 20s
           uris:
-          - p-rabbitmq-202-241-169-198.sslip.io
+          - p-rabbitmq-((system_domain))
   vm_type: default
   stemcell: trusty
   networks:
   - name: default
+    static_ips:
+    - 10.244.1.99
+    - 10.244.2.99
   azs:
   - z1
   - z2
+
+- name: rmq-broker
+  instances: 1
+  jobs:
+  - name: rabbitmq-broker
+    release: cf-rabbitmq-multitenant-broker
+    properties:
+      cf:
+        domain: ((system_domain))
+      rabbitmq-broker:
+        route: rabbitmq-broker
+        cc_endpoint: http://api.((system_domain))
+        service:
+          username: broker
+          password: ((multitenant-rabbitmq-broker-password))
+        logging:
+          level: debug
+          print_stack_traces: false
+        rabbitmq:
+          operator_set_policy:
+            enabled: true
+            policy_name: "operator_set_policy"
+            policy_definition: "{\"ha-mode\":\"exactly\",\"ha-params\":2,\"ha-sync-mode\":\"automatic\"}"
+            policy_priority: 50
+          management_domain: p-rabbitmq-((system_domain))
+          ssl: true
+          administrator:
+            username: broker
+            password: ((rabbitmq-broker-password))
+  - name: route_registrar
+    release: routing
+    consumes:
+      nats: {from: nats, deployment: cf}
+    properties:
+      route_registrar:
+        routes:
+        - name: rabbitmq-broker
+          port: 4567
+          registration_interval: 20s
+          uris:
+          - rabbitmq-broker-((system_domain))
+  vm_type: default
+  stemcell: trusty
+  azs:
+  - z1
+  networks:
+  - name: default
+
+- name: broker-registrar
+  jobs:
+  - name: broker-registrar
+    release: cf-rabbitmq-multitenant-broker
+    properties:
+      cf:
+        api_url: https://api.((system_domain))
+        admin_username: admin
+        admin_password: ((/bosh-lite/cf/cf_admin_password))
+      broker:
+        service:
+          name: p-rabbitmq
+        name: p-rabbitmq
+        protocol: https
+        host: rabbitmq-broker-((system_domain))
+        username: broker
+        password: ((multitenant-rabbitmq-broker-password))
+  instances: 1
+  lifecycle: errand
+  vm_type: default
+  stemcell: trusty
+  azs:
+  - z1
+  networks:
+  - name: default
+
+- name: broker-deregistrar
+  jobs:
+  - name: broker-deregistrar
+    release: cf-rabbitmq-multitenant-broker
+    properties:
+      cf:
+        api_url: https://api.((system_domain))
+        admin_username: admin
+        admin_password: ((/bosh-lite/cf/cf_admin_password))
+      broker:
+        name: p-rabbitmq
+        service:
+          name: p-rabbitmq
+  instances: 1
+  lifecycle: errand
+  vm_type: default
+  stemcell: trusty
+  azs:
+  - z1
+  networks:
+  - name: default
+
+- name: smoke-tests
+  jobs:
+  - name: smoke-tests
+    release: cf-rabbitmq-multitenant-broker
+    properties:
+      cf:
+        api_url: https://api.((system_domain))
+        domain: ((system_domain))
+        admin_username: admin
+        admin_password: ((/bosh-lite/cf/cf_admin_password))
+      broker:
+        name: p-rabbitmq
+  instances: 1
+  lifecycle: errand
+  vm_type: default
+  stemcell: trusty
+  azs:
+  - z1
+  networks:
+  - name: default
 
 variables:
 - name: rabbitmq-management-password
   type: password
 - name: rabbitmq-broker-password
+  type: password
+- name: multitenant-rabbitmq-broker-password
   type: password
 
 update:
