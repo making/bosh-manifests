@@ -1,6 +1,3 @@
-[submodule "prometheus"]
-	path = prometheus
-	url = git@github.com:cloudfoundry-community/prometheus-boshrelease.git
 [submodule "cf-deployment"]
 	path = cf-deployment
 	url = git@github.com:cloudfoundry/cf-deployment.git
