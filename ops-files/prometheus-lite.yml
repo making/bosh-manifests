@@ -1,0 +1,7 @@
+- type: replace
+  path: /instance_groups/name=prometheus/jobs/name=cf_exporter/properties/cf_exporter/cf/client_secret
+  value: ((/bosh-lite/cf/uaa_clients_cf_exporter_secret))
+
+- type: replace
+  path: /instance_groups/name=firehose/jobs/name=firehose_exporter/properties/firehose_exporter/uaa/client_secret
+  value: ((/bosh-lite/cf/uaa_clients_firehose_exporter_secret))

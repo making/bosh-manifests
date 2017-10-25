@@ -13,5 +13,5 @@ bosh deploy -d prometheus prometheus-boshrelease/manifests/prometheus.yml  \
             --var-file bosh_ca_cert=~/default_ca \
             -v bosh_username=admin \
             -v bosh_password=$(bosh int ./bosh-azure-creds.yml --path /admin_password) \
-            -v uaa_bosh_exporter_client_secret=$(bosh int ../bosh-azure-creds.yml --path /uaa_bosh_exporter_client_secret) \
+            -v uaa_bosh_exporter_client_secret=$(bosh int ./bosh-azure-creds.yml --path /uaa_bosh_exporter_client_secret) \
             -v metrics_environment=bosh-1
