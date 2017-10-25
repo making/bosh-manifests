@@ -1,0 +1,6 @@
+- type: replace
+  path: /instance_groups/name=prometheus/jobs/name=mysqld_exporter/properties/mysqld_exporter/mysql
+  value:
+    address: ((/mysql/address))
+    username: ((/mysql/username))
+    password: ((/mysql/password))
