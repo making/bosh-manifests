@@ -3,3 +3,4 @@ creds*.yml
 *-vars.yml
 *state.json
 *.pem
+backup*.sql
