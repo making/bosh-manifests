@@ -1,0 +1,5 @@
+- type: replace
+  path: /variables/-
+  value:
+    name: atc_basic_auth
+    type: user

@@ -7,3 +7,6 @@
 [submodule "prometheus-boshrelease"]
 	path = prometheus-boshrelease
 	url = git@github.com:cloudfoundry-community/prometheus-boshrelease.git
+[submodule "concourse-deployment"]
+	path = concourse-deployment
+	url = git@github.com:concourse/concourse-deployment.git

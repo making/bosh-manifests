@@ -1,5 +1,8 @@
 - type: remove
-  path: /instance_groups/name=web/jobs/name=atc/properties/postgresql_database
+  path: /releases/name=postgres
+  
+- type: remove
+  path: /instance_groups/name=web/jobs/name=atc/properties/postgresql_database?
 
 - type: replace
   path: /instance_groups/name=web/jobs/name=atc/properties/postgresql?/host?
