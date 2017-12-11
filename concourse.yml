@@ -12,9 +12,9 @@ name: concourse
 
 releases:
 - name: concourse
-  version: 3.6.0
-  url: https://bosh.io/d/github.com/concourse/concourse?v=3.6.0
-  sha1: 1257bdcd3181ab0a669bc9e34cd87aff584f007b
+  version: 3.8.0
+  url: https://bosh.io/d/github.com/concourse/concourse?v=3.8.0
+  sha1: 99e134676df72e18c719ccfbd7977bd9449e6fd4
 - name: garden-runc
   version: 1.9.0
   url: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=1.9.0
@@ -46,11 +46,15 @@ instance_groups:
       bind_port: 8080
       tls_bind_port: 443
       postgresql_database: &atc_db atc
+      token_signing_key: ((token_signing_key))
       # encryption_key: ((encryption_key))
       # old_encryption_key: ((old_encryption_key))
   - name: tsa
     release: concourse
-    properties: {}
+    properties:
+      host_key: ((tsa_host_key))
+      token_signing_key: ((token_signing_key))
+      authorized_keys: [((worker_key.public_key))]
 - name: db
   instances: 1
   vm_type: default
@@ -77,7 +81,9 @@ instance_groups:
   jobs:
   - name: groundcrew
     release: concourse
-    properties: {}
+    properties:
+      drain_timeout: 10m
+      tsa: {worker_key: ((worker_key))}
   - name: baggageclaim
     release: concourse
     properties: {}
@@ -120,3 +126,10 @@ variables:
   type: password
   options:
     length: 16
+- name: token_signing_key
+  type: rsa
+- name: tsa_host_key
+  type: ssh
+- name: worker_key
+  type: ssh
+
