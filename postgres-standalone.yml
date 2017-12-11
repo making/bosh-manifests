@@ -4,13 +4,13 @@ name: postgres
 
 releases:
 - name: postgres
-  sha1: b37916b709fb45ac7de3e195456301cb01a1ae22
-  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=21
-  version: 21
+  sha1: 4b5265bfd5f92cf14335a75658658a0db0bca927
+  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=23
+  version: 23
 - name: bosh-virtualbox-cpi
-  sha1: 0b39e1b43a509adba295275fcc2afee1fb046c5d
-  url: https://bosh.io/d/github.com/cppforlife/bosh-virtualbox-cpi-release?v=0.0.11
-  version: 0.0.11
+  sha1: 537c77b087eeda859b1eb89553efa6f808214d50
+  url: https://bosh.io/d/github.com/cppforlife/bosh-virtualbox-cpi-release?v=0.0.12
+  version: 0.0.12
 - name: os-conf
   sha1: af5a2c9f228b9d7ec4bd051d71fef0e712fa1549
   url: https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=12
