@@ -12,6 +12,7 @@ bosh deploy -d prometheus prometheus-boshrelease/manifests/prometheus.yml  \
             -o prometheus-boshrelease/manifests/operators/enable-bosh-uaa.yml \
             -o prometheus-boshrelease/manifests/operators/alertmanager-slack-receiver.yml \
             -o prometheus-boshrelease/manifests/operators/alertmanager-web-external-url.yml \
+            -o ops-files/prometheus-pivotal-kpis-op.yml \
             -o ops-files/prometheus-nginx.yml \
             -o ops-files/prometheus-mysql.yml \
             -o ops-files/prometheus-lite.yml \

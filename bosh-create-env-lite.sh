@@ -10,7 +10,7 @@ bosh create-env bosh-deployment/bosh.yml \
   -o bosh-deployment/credhub.yml \
   -o bosh-deployment/jumpbox-user.yml \
   -o ops-files/director-size-lite.yml \
-  -o prometheus/manifests/operators/bosh/add-bosh-exporter-uaa-clients.yml \
+  -o prometheus-boshrelease/manifests/operators/bosh/add-bosh-exporter-uaa-clients.yml \
   --vars-store bosh-lite-creds.yml \
   -v director_name=bosh-lite \
   -v internal_ip=192.168.50.6 \

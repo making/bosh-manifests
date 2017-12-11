@@ -1,0 +1,54 @@
+#!/bin/bash
+
+#   -o ops-files/use-sslip.yml \
+
+bosh -d cf deploy cf-deployment/cf-deployment.yml \
+  -o cf-deployment/operations/bosh-lite.yml \
+  -o cf-deployment/operations/aws.yml \
+  -o cf-deployment/operations/use-compiled-releases.yml \
+  -o cf-deployment/operations/use-s3-blobstore.yml \
+  -o cf-deployment/operations/use-external-dbs.yml \
+  -o prometheus-boshrelease/manifests/operators/cf/add-grafana-uaa-clients.yml \
+  -o prometheus-boshrelease/manifests/operators/cf/add-prometheus-uaa-clients.yml \
+  -o ops-files/disable-uaa-signup.yml \
+  -o ops-files/cf-minimal-ha.yml \
+  -v system_domain=202-241-169-198.sslip.io \
+  -v grafana_redirect_uri=https://grafana.ik.am/login/generic_oauth \
+  -v blobstore_access_key_id=${ACCESS_KEY_ID} \
+  -v blobstore_secret_access_key=${SECRET_ACCESS_KEY} \
+  -v aws_region=ap-northeast-1 \
+  -v buildpack_directory_key=maki-cf-buildpacksbucket \
+  -v droplet_directory_key=maki-cf-dropletsbucket \
+  -v app_package_directory_key=maki-cf-packagesbucket \
+  -v resource_directory_key=maki-cf-resourcesbucket \
+  -v external_database_type=mysql \
+  -v external_database_port=3306 \
+  -v external_uaa_database_name=uaa \
+  -v external_uaa_database_address=mysql.ik.am \
+  -v external_uaa_database_password=${CLOUD_DB_PASSWORD} \
+  -v external_uaa_database_username=${CLOUD_DB_USERNAME} \
+  -v external_cc_database_name=ccdb \
+  -v external_cc_database_address=mysql.ik.am \
+  -v external_cc_database_password=${CLOUD_DB_PASSWORD} \
+  -v external_cc_database_username=${CLOUD_DB_USERNAME} \
+  -v external_bbs_database_name=diego \
+  -v external_bbs_database_address=mysql.ik.am \
+  -v external_bbs_database_password=${CLOUD_DB_PASSWORD} \
+  -v external_bbs_database_username=${CLOUD_DB_USERNAME} \
+  -v external_routing_api_database_name=routing \
+  -v external_routing_api_database_address=mysql.ik.am \
+  -v external_routing_api_database_password=${CLOUD_DB_PASSWORD} \
+  -v external_routing_api_database_username=${CLOUD_DB_USERNAME} \
+  -v external_policy_server_database_name=networkpolicyserver \
+  -v external_policy_server_database_address=mysql.ik.am \
+  -v external_policy_server_database_password=${CLOUD_DB_PASSWORD} \
+  -v external_policy_server_database_username=${CLOUD_DB_USERNAME} \
+  -v external_silk_controller_database_name=silk \
+  -v external_silk_controller_database_address=mysql.ik.am \
+  -v external_silk_controller_database_password=${CLOUD_DB_PASSWORD} \
+  -v external_silk_controller_database_username=${CLOUD_DB_USERNAME} \
+  -v external_locket_database_name=locket \
+  -v external_locket_database_address=mysql.ik.am \
+  -v external_locket_database_password=${CLOUD_DB_PASSWORD} \
+  -v external_locket_database_username=${CLOUD_DB_USERNAME} \
+  --no-redact
