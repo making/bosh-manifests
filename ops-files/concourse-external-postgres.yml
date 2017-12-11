@@ -1,17 +1,17 @@
 - type: remove
   path: /releases/name=postgres
   
-- type: remove
-  path: /instance_groups/name=web/jobs/name=atc/properties/postgresql_database?
-
 - type: replace
   path: /instance_groups/name=web/jobs/name=atc/properties/postgresql?/host?
   value: ((postgres_host))
 
 - type: replace
+  path: /instance_groups/name=web/jobs/name=atc/properties/postgresql?/port?
+  value: ((postgres_port))
+
+- type: replace
   path: /instance_groups/name=web/jobs/name=atc/properties/postgresql?/role?/name?
-  value: atc
-#  value: atc@((postgres_host))
+  value: ((postgres_role))
 
 - type: replace
   path: /instance_groups/name=web/jobs/name=atc/properties/postgresql?/role?/password?
@@ -23,5 +23,3 @@
 
 - type: remove
   path: /instance_groups/name=db
-
-
