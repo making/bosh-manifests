@@ -4,7 +4,7 @@ bosh deploy -d concourse concourse-deployment/cluster/concourse.yml \
      -l concourse-deployment/versions.yml \
      -o concourse-deployment/cluster/operations/static-web.yml \
      -o concourse-deployment/cluster/operations/basic-auth.yml \
-     -o ops-files/concourse-external-postgres.yml \
+     -o concourse-deployment/cluster/operations/external-postgres.yml \
      -o ops-files/concourse-credhub.yml \
      -o ops-files/concourse-variables.yml \
      -v web_ip=10.244.1.120 \
