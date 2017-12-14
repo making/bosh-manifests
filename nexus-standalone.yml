@@ -4,9 +4,9 @@ name: nexus
 
 releases:
 - name: nexus
-  version: 0.5.0
-  url: https://github.com/making/nexus-boshrelease/releases/download/0.5.0/nexus-boshrelease-0.5.0.tgz
-  sha1: ae787a0e62261184d0c89ec2a513e23b336259e5
+  version: 0.6.0
+  url: https://github.com/making/nexus-boshrelease/releases/download/0.6.0/nexus-boshrelease-0.6.0.tgz
+  sha1: 8e76e705329c8c72cd87f39922e707978d425af7
 - name: bosh-virtualbox-cpi
   sha1: 537c77b087eeda859b1eb89553efa6f808214d50
   url: https://bosh.io/d/github.com/cppforlife/bosh-virtualbox-cpi-release?v=0.0.12
@@ -63,6 +63,7 @@ instance_groups:
         max_direct_memory_size: 512M
         ssl_cert: ((nexus_ssl.certificate))
         ssl_key: ((nexus_ssl.private_key))
+        admin_password: ((admin_password))
   - name: user_add
     release: os-conf
     properties:
@@ -118,3 +119,5 @@ variables:
     common_name: ((internal_ip))
     alternative_names: 
     - ((internal_ip))
+- name: admin_password
+  type: password
