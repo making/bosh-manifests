@@ -1,0 +1,100 @@
+- type: replace
+  path: /releases/-
+  value: 
+    name: credhub
+    url: https://bosh.io/d/github.com/pivotal-cf/credhub-release?v=1.6.5
+    version: 1.6.5
+    sha1: eda4e8873aa2dbfacb1857b175f761d2d0b64538
+
+- type: replace
+  path: /instance_groups/-
+  value:
+    name: credhub
+    instances: 1
+    vm_type: default
+    persistent_disk_type: default
+    azs: [z1]
+    stemcell: trusty
+    networks:
+    - name: default
+      static_ips: [((credhub-ip))]
+
+    jobs:
+    - name: credhub
+      release: credhub
+      properties:
+        credhub:
+          tls: ((credhub-tls))
+          authentication:
+            uaa:
+              url: ((uaa-url))
+              verification_key: ((uaa-jwt.public_key))
+              ca_certs:
+              - ((uaa-tls.ca)) 
+          data_storage:
+            type: postgres
+            username: admin
+            password: ((database-admin))
+            host: ((postgres-ip))
+            port: 5432
+            database: credhub
+            require_tls: false
+          encryption:
+            keys: 
+            - provider_name: int
+              encryption_password: ((credhub-encryption-password))
+              active: true
+            providers: 
+            - name: int
+              type: internal
+
+- type: replace
+  path: /instance_groups/name=db/networks/0/static_ips?
+  value: [((postgres-ip))]
+
+- type: replace
+  path: /instance_groups/name=db/jobs/name=postgres/properties/databases/databases/-
+  value:
+    name: credhub
+
+- type: replace
+  path: /instance_groups/name=db/jobs/name=postgres/properties/databases/roles/-
+  value: 
+    name: admin
+    password: ((database-admin))
+
+- type: replace
+  path: /variables/-
+  value:
+    name: credhub-encryption-password
+    type: password
+    options:
+      length: 40
+
+- type: replace
+  path: /variables/-
+  value:
+    name: default-ca
+    type: certificate
+    options:
+      is_ca: true
+      common_name: ca
+
+- type: replace
+  path: /variables/-
+  value:
+    name: credhub-tls
+    type: certificate
+    options:
+      ca: default-ca
+      common_name: ((credhub-ip))
+      alternative_names:
+      - ((credhub-ip))
+      - 127.0.0.1
+
+- type: replace
+  path: /variables/-
+  value:
+    name: database-admin
+    type: password
+

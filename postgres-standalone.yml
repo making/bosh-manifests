@@ -61,6 +61,8 @@ instance_groups:
         databases:
         - name: ((postgres_database))
           citext: true
+        - name: atc
+        - name: credhub
         roles:
         - name: ((postgres_user))
           password: ((postgres_password))
