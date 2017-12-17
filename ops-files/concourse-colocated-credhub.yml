@@ -12,7 +12,6 @@
     name: credhub
     instances: 1
     vm_type: default
-    persistent_disk_type: default
     azs: [z1]
     stemcell: trusty
     networks:
