@@ -4,6 +4,7 @@
     url: ((credhub_url))
     tls:
       insecure_skip_verify: true
+      ca_cert: ((default-ca))
     client_id: ((credhub_client_id))
     client_secret: ((credhub_client_secret))
 
