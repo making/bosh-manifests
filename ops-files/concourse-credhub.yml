@@ -34,9 +34,6 @@
       properties:
         credhub:
           tls: ((credhub-tls))
-          authorization:
-            acls:
-              enabled: true
           authentication:
             uaa:
               url: ((uaa-url))
