@@ -9,6 +9,7 @@ bosh deploy -d prometheus prometheus-boshrelease/manifests/prometheus.yml  \
             -o prometheus-boshrelease/manifests/operators/monitor-node.yml \
             -o prometheus-boshrelease/manifests/operators/monitor-http-probe.yml \
             -o prometheus-boshrelease/manifests/operators/monitor-mysql.yml \
+            -o prometheus-boshrelease/manifests/operators/monitor-kubernetes.yml \
             -o prometheus-boshrelease/manifests/operators/enable-bosh-uaa.yml \
             -o prometheus-boshrelease/manifests/operators/alertmanager-slack-receiver.yml \
             -o prometheus-boshrelease/manifests/operators/alertmanager-web-external-url.yml \
