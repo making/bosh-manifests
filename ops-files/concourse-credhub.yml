@@ -17,7 +17,7 @@
     client_secret: ((credhub_client_secret))
 
 - type: replace
-  path: /instance_groups/-
+  path: /instance_groups/name=web:before
   value:
     name: credhub
     instances: 1
