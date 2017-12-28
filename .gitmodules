@@ -10,3 +10,6 @@
 [submodule "concourse-deployment"]
 	path = concourse-deployment
 	url = git@github.com:concourse/concourse-deployment.git
+[submodule "kubo-deployment"]
+	path = kubo-deployment
+	url = git@github.com:cloudfoundry-incubator/kubo-deployment.git
