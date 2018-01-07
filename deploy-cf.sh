@@ -11,11 +11,12 @@ bosh -d cf deploy cf-deployment/cf-deployment.yml \
   -o prometheus-boshrelease/manifests/operators/cf/add-grafana-uaa-clients.yml \
   -o prometheus-boshrelease/manifests/operators/cf/add-prometheus-uaa-clients.yml \
   -o ops-files/disable-uaa-signup.yml \
-  -o ops-files/cf-minimal-ha.yml \
+  -o ops-files/cf-blobstore-endpoint-url.yml \
   -v system_domain=202-241-169-198.sslip.io \
   -v grafana_redirect_uri=https://grafana.ik.am/login/generic_oauth \
   -v blobstore_access_key_id=${ACCESS_KEY_ID} \
   -v blobstore_secret_access_key=${SECRET_ACCESS_KEY} \
+  -v blobstore_endpoint_url=${S3_ENDPOINT_URL} \
   -v aws_region=ap-northeast-1 \
   -v buildpack_directory_key=maki-cf-buildpacksbucket \
   -v droplet_directory_key=maki-cf-dropletsbucket \
