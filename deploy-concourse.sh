@@ -8,6 +8,8 @@ bosh deploy -d concourse concourse-deployment/cluster/concourse.yml \
      -o concourse-deployment/cluster/operations/external-postgres.yml \
      -o ops-files/concourse-credhub-external-postgres.yml \
      -o ops-files/concourse-variables.yml \
+     -o ops-files/use-specific-stemcell.yml \
+     -v stemcell_version="3468.13" \
      -v web_ip=10.244.1.120 \
      -v external_url=https://concourse.ik.am \
      -v network_name=default \
