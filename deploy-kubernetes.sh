@@ -3,7 +3,7 @@ set -e
 
 bosh deploy -d cfcr kubo-deployment/manifests/cfcr.yml \
             -o ops-files/use-specific-stemcell.yml \
-            -o ops-files/kubernetes-kubo-0.11.0.yml \
+            -o ops-files/kubernetes-kubo-0.12.0.yml \
             -o ops-files/kubernetes-static-ips.yml \
             -o ops-files/kubernetes-single-worker.yml \
             -v stemcell_version="3468.13" \
