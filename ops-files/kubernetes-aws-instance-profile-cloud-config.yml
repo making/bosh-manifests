@@ -1,0 +1,13 @@
+- type: replace
+  path: /vm_extensions/name=cfcr-master-iam-instance-profile?
+  value:
+    name: cfcr-master-iam-instance-profile
+    cloud_properties:
+      iam_instance_profile: cfcr-master
+
+- type: replace
+  path: /vm_extensions/name=cfcr-worker-iam-instance-profile?
+  value:
+    name: cfcr-worker-iam-instance-profile
+    cloud_properties:
+      iam_instance_profile: cfcr-worker
