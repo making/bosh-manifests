@@ -1,0 +1,21 @@
+- type: replace
+  path: /releases/-
+  value:
+    name: datadog-agent
+    version: 1.2.5220
+    url: https://bosh.io/d/github.com/DataDog/datadog-agent-boshrelease?v=1.2.5220
+    sha1: 82b409612f320710da1cb21ce42452112cac9734
+
+- type: replace
+  path: /instance_groups/0/jobs/-
+  value:
+    name: dd-agent
+    release: datadog-agent
+    properties:
+      dd:
+       hostname: ((datadog-hostname))
+       bosh_tags: false
+       use_dogstatsd: yes
+       dogstatsd_port: 18125 # Many Cloud Foundry deployments have their own StatsD listening on port 8125
+       api_key: ((datadog-api-key))
+       tags: [((datadog-hostname))] # optional. Add any tags you wish
