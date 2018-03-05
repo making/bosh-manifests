@@ -9,6 +9,7 @@ bosh deploy -d concourse concourse-deployment/cluster/concourse.yml \
      -o ops-files/concourse-credhub-external-postgres.yml \
      -o ops-files/concourse-variables.yml \
      -o ops-files/use-specific-stemcell.yml \
+     -o ops-files/concourse-emtpy-certs-path.yml \
      -o prometheus-boshrelease/manifests/operators/concourse/enable-prometheus-metrics.yml \
      -v stemcell_version="3468.21" \
      -v web_ip=10.244.1.120 \
