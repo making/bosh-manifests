@@ -4,10 +4,7 @@ bosh deploy -d concourse concourse-deployment/cluster/concourse.yml \
      -l concourse-deployment/versions.yml \
      -o concourse-deployment/cluster/operations/static-web.yml \
      -o concourse-deployment/cluster/operations/basic-auth.yml \
-     -o ops-files/concourse-credhub.yml \
      -o concourse-deployment/cluster/operations/external-postgres.yml \
-     -o ops-files/concourse-credhub-external-postgres.yml \
-     -o ops-files/concourse-variables.yml \
      -o ops-files/use-specific-stemcell.yml \
      -o ops-files/concourse-emtpy-certs-path.yml \
      -o prometheus-boshrelease/manifests/operators/concourse/enable-prometheus-metrics.yml \
@@ -31,3 +28,8 @@ bosh deploy -d concourse concourse-deployment/cluster/concourse.yml \
      -v credhub_client_id=director_to_credhub \
      -v credhub_client_secret=`bosh int ~/bosh-deployment/creds.yml --path /uaa_clients_director_to_credhub` \
      --no-redact
+
+
+# -o ops-files/concourse-credhub.yml \
+# -o ops-files/concourse-credhub-external-postgres.yml \
+# -o ops-files/concourse-variables.yml \
