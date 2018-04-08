@@ -5,7 +5,7 @@ bosh deploy -d cfcr kubo-deployment/manifests/cfcr.yml \
             -o kubo-deployment/manifests/ops-files/add-oidc-endpoint.yml \
             -o kubo-deployment/manifests/ops-files/system-specs.yml \
             -o ops-files/use-specific-stemcell.yml \
-            -o ops-files/kubernetes-kubo-0.14.0.yml \
+            -o ops-files/kubernetes-kubo-0.15.0.yml \
             -o ops-files/kubernetes-static-ips.yml \
             -o ops-files/kubernetes-single-worker.yml \
             -o ops-files/kubernetes-add-alternative-name.yml \
