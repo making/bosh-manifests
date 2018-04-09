@@ -16,3 +16,6 @@
 [submodule "logstash-boshrelease"]
 	path = logstash-boshrelease
 	url = git@github.com:making/logstash-boshrelease.git
+[submodule "elasticsearch-boshrelease"]
+	path = elasticsearch-boshrelease
+	url = git@github.com:making/elasticsearch-boshrelease.git
