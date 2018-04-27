@@ -17,6 +17,8 @@ bosh deploy -d prometheus prometheus-boshrelease/manifests/prometheus.yml  \
             -o ops-files/prometheus-nginx.yml \
             -o ops-files/prometheus-mysql.yml \
             -o ops-files/prometheus-lite.yml \
+            -o ops-files/use-specific-stemcell.yml \
+            -v stemcell_version="3468.13" \
             -v bosh_url=192.168.50.6 \
             --var-file bosh_ca_cert=/tmp/default_ca \
             -v bosh_username=admin \
