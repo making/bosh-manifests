@@ -1,0 +1,44 @@
+- type: replace
+  path: /releases/name=os-conf?
+  value:
+    name: "os-conf"
+    version: "20"
+    url: "https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=20"
+    sha1: "42b1295896c1fbcd36b55bfdedfe86782b2c9fba"
+
+- type: replace
+  path: /instance_groups/name=kafka/jobs/-
+  value:
+    name: pre-start-script
+    release: os-conf
+    properties:
+      script: |-
+        #!/bin/bash
+        sed -i 's|#advertised.listeners=PLAINTEXT://your.host.name:9092|advertised.listeners=PLAINTEXT://kafka0.japaneast.cloudapp.azure.com:9092|' /var/vcap/jobs/kafka/config/server.properties
+        sed -i '/offsets.topic.replication.factor/d' /var/vcap/jobs/kafka/config/server.properties
+        echo 'offsets.topic.replication.factor=1' >>  /var/vcap/jobs/kafka/config/server.properties
+        cat <<'EOF' > /etc/profile.d/kafka.sh
+        #!/bin/bash
+        export JAVA_HOME=/var/vcap/packages/openjdk
+        if ! echo $PATH | grep -q 'kafka'; then
+          export PATH=$JAVA_HOME/bin:/var/vcap/packages/kafka/bin:$PATH
+        fi
+        EOF
+        chmod +x /etc/profile.d/kafka.sh
+
+- type: replace
+  path: /instance_groups/name=zookeeper/jobs/-
+  value:
+    name: pre-start-script
+    release: os-conf
+    properties:
+      script: |-
+        #!/bin/bash
+        cat <<'EOF' > /etc/profile.d/zookeeper.sh
+        #!/bin/bash
+        export JAVA_HOME=/var/vcap/packages/java/jdk
+        if ! echo $PATH | grep -q 'zookeeper'; then
+          export PATH=$JAVA_HOME/bin:/var/vcap/packages/zookeeper/bin:$PATH
+        fi
+        EOF
+        chmod +x /etc/profile.d/zookeeper.sh

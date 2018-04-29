@@ -1,0 +1,15 @@
+- type: replace
+  path: /instance_groups/name=zookeeper/instances
+  value: 1
+- type: replace
+  path: /instance_groups/name=kafka-manager/instances
+  value: 0
+- type: replace
+  path: /instance_groups/name=zookeeper/vm_type
+  value: small
+- type: replace
+  path: /instance_groups/name=kafka/vm_type
+  value: small
+- type: replace
+  path: /instance_groups/name=kafka-manager/vm_type
+  value: small
