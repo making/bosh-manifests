@@ -1,0 +1,23 @@
+- type: replace
+  path: /instance_groups/name=kafka/networks/name=default/default?
+  value:
+  - dns
+  - gateway
+
+- type: replace
+  path: /instance_groups/name=kafka/networks/-
+  value: 
+    name: public
+    static_ips: ((kafka_ips))
+
+- type: replace
+  path: /instance_groups/name=zookeeper/networks/name=default/default?
+  value:
+  - dns
+  - gateway
+
+- type: replace
+  path: /instance_groups/name=zookeeper/networks/-
+  value: 
+    name: public
+    static_ips: ((zookeeper_ips))

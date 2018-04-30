@@ -19,3 +19,6 @@
 [submodule "elasticsearch-boshrelease"]
 	path = elasticsearch-boshrelease
 	url = git@github.com:making/elasticsearch-boshrelease.git
+[submodule "kafka-boshrelease"]
+	path = kafka-boshrelease
+	url = git@github.com:cloudfoundry-community/kafka-boshrelease.git
