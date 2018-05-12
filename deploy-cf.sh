@@ -8,6 +8,9 @@ bosh -d cf deploy cf-deployment/cf-deployment.yml \
   -o cf-deployment/operations/use-s3-blobstore.yml \
   -o cf-deployment/operations/use-external-dbs.yml \
   -o cf-deployment/operations/use-latest-stemcell.yml \
+  -o cf-deployment/operations/experimental/use-bosh-dns-for-containers.yml \
+  -o cf-deployment/operations/experimental/use-bosh-dns.yml \
+  -o cf-deployment/operations/experimental/enable-service-discovery.yml \
   -o prometheus-boshrelease/manifests/operators/cf/add-grafana-uaa-clients.yml \
   -o prometheus-boshrelease/manifests/operators/cf/add-prometheus-uaa-clients.yml \
   -o ops-files/disable-uaa-signup.yml \
