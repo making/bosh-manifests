@@ -22,3 +22,6 @@
 [submodule "kafka-boshrelease"]
 	path = kafka-boshrelease
 	url = git@github.com:cloudfoundry-community/kafka-boshrelease.git
+[submodule "vault-boshrelease"]
+	path = vault-boshrelease
+	url = git@github.com:cloudfoundry-community/vault-boshrelease.git
