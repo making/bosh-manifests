@@ -5,6 +5,7 @@ bosh deploy -d concourse concourse-deployment/cluster/concourse.yml \
      -o concourse-deployment/cluster/operations/static-web.yml \
      -o concourse-deployment/cluster/operations/basic-auth.yml \
      -o concourse-deployment/cluster/operations/external-postgres.yml \
+     -o concourse-deployment/cluster/operations/vault-tls-cert-auth.yml \
      -o ops-files/concourse-emtpy-certs-path.yml \
      -o ops-files/use-specific-stemcell.yml \
      -o prometheus-boshrelease/manifests/operators/concourse/enable-prometheus-metrics.yml \
@@ -27,6 +28,10 @@ bosh deploy -d concourse concourse-deployment/cluster/concourse.yml \
      --var-file uaa-jwt.public_key=<(bosh int bosh-lite-creds.yml --path /uaa_jwt_signing_key/public_key) \
      -v credhub_client_id=director_to_credhub \
      -v credhub_client_secret=`bosh int bosh-lite-creds.yml --path /uaa_clients_director_to_credhub` \
+     -v vault_url=https://10.244.0.98:8200 \
+     --var-file vault_cert.ca=<(credhub get -n /bosh-lite/vault/concourse-tls -j | jq -r .value.ca) \
+     --var-file vault_cert.certificate=<(credhub get -n /bosh-lite/vault/concourse-tls -j | jq -r .value.certificate) \
+     --var-file vault_cert.private_key=<(credhub get -n /bosh-lite/vault/concourse-tls -j | jq -r .value.private_key) \
      --no-redact
 
 # -o ops-files/concourse-credhub.yml \
