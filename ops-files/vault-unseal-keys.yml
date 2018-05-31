@@ -1,0 +1,31 @@
+- type: replace
+  path: /instance_groups/name=vault/jobs/name=vault/properties/vault/update?/unseal_keys?
+  value:
+  - /qDoUc081PArpXOnKtbiN8BA6rWPCPNvI2Etvx8NjazW
+  - 0YUxEcuRcLiq71W/zk00u9mD9ex0qwMe7/w4Zwsn3P4y
+  - vqTiPijWp3e1ZFNkj8w+teKXPTtOqCa9KoNQFcrXQbhN
+  #- pL3YYZ/R2fzDdLWaTR3gH+lwFZiS0qWYY9wSfpNgHHjY
+  #- fKnc36SNKLm7fQOVoo1q1iglsaQbUaH4lzebfDPVw/ct
+
+# Hack
+
+- type: replace
+  path: /releases/name=os-conf?
+  value:
+    name: "os-conf"
+    version: "20"
+    url: "https://bosh.io/d/github.com/cloudfoundry/os-conf-release?v=20"
+    sha1: "42b1295896c1fbcd36b55bfdedfe86782b2c9fba"
+
+- type: replace
+  path: /instance_groups/name=vault/jobs/-
+  value:
+    name: pre-start-script
+    release: os-conf
+    properties:
+      script: |-
+        #!/bin/bash
+        if ! grep -q 'VAULT_SKIP_VERIFY' /var/vcap/jobs/vault/data/properties.sh ; then
+          echo 'export VAULT_SKIP_VERIFY=1' >> /var/vcap/jobs/vault/data/properties.sh
+        fi
+        sed -i '/^\r\?$/d' /var/vcap/jobs/vault/data/unseal_keys

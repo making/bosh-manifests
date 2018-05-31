@@ -1,0 +1,15 @@
+- type: replace
+  path: /instance_groups/name=vault/jobs/name=vault/properties/tls/-
+  value:
+    name: concourse
+    cert: ((concourse-tls.certificate))
+    key: ((concourse-tls.private_key))
+
+- type: replace
+  path: /variables/-
+  value:
+    name: concourse-tls
+    type: certificate
+    options:
+      ca: vault-ca
+      common_name: concourse
