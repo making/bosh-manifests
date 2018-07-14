@@ -7,7 +7,7 @@ bosh -d logstash deploy logstash-boshrelease/manifest/logstash.yml \
      -o logstash-boshrelease/manifest/types.yml \
      -o logstash-boshrelease/manifest/readiness-probe.yml \
      -o ops-files/logstash-consume-elasticsearch.yml \
-     -v logstash_instances=2 \
+     -v logstash_instances=1 \
      -v logstash_azs="[z1, z2, z3]" \
      -v logstash_disk_type="5120" \
      -v logstash_vm_type=minimal \
