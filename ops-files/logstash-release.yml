@@ -1,7 +1,0 @@
-- type: replace
-  path: /releases/name=logstash?
-  value:
-    name: logstash
-    version: 0.0.5
-    url: https://github.com/making/logstash-boshrelease/releases/download/0.0.5/logstash-boshrelease-0.0.5.tgz
-    sha1: fd5f6f2bf2e8be066a619f84c044fea471284126

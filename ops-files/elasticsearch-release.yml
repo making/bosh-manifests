@@ -1,7 +1,0 @@
-- type: replace
-  path: /releases/name=elasticsearch
-  value:
-    name: elasticsearch
-    version: 0.2.0
-    url: https://github.com/making/elasticsearch-boshrelease/releases/download/0.2.0/elasticsearch-boshrelease-0.2.0.tgz
-    sha1: 9ef0fb59232bac9d6425adcc7fd91ce4d45c3281

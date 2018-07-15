@@ -1,6 +1,0 @@
-- type: replace
-  path: /instance_groups/name=logstash/jobs/name=logstash/consumes?
-  value:
-    elasticsearch:
-      from: elasticsearch-master
-      deployment: elasticsearch
