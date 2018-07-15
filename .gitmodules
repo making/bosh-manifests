@@ -25,3 +25,6 @@
 [submodule "vault-boshrelease"]
 	path = vault-boshrelease
 	url = git@github.com:cloudfoundry-community/vault-boshrelease.git
+[submodule "elastic-stack-bosh-deployment"]
+	path = elastic-stack-bosh-deployment
+	url = git@github.com:making/elastic-stack-bosh-deployment.git
