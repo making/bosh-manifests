@@ -13,7 +13,7 @@ bosh -d elastic-stack deploy elastic-stack-bosh-deployment/elastic-stack.yml \
      -o elastic-stack-bosh-deployment/ops-files/elasticsearch-add-plugins-data.yml \
      -o elastic-stack-bosh-deployment/ops-files/logstash-add-lb.yml \
      -o elastic-stack-bosh-deployment/ops-files/logstash-readiness-probe.yml \
-     -o elastic-stack-bosh-deployment/ops-files/kibana-https.yml \
+     -o elastic-stack-bosh-deployment/ops-files/kibana-https-and-basic-auth.yml \
      --var-file logstash.conf=logstash.conf \
      -o <(cat <<EOF
 - type: replace
@@ -24,6 +24,9 @@ bosh -d elastic-stack deploy elastic-stack-bosh-deployment/elastic-stack.yml \
   value: spot-instance-t2.micro
 - type: replace
   path: /instance_groups/name=logstash/vm_extensions?/-
+  value: spot-instance-t2.micro
+- type: replace
+  path: /instance_groups/name=kibana/vm_extensions?/-
   value: spot-instance-t2.micro
 EOF) \
      -v elasticsearch_master_instances=1 \
@@ -43,4 +46,9 @@ EOF) \
      -v logstash_azs="[z1, z2, z3]" \
      -v logstash_readiness_probe_http_port=0 \
      -v logstash_readiness_probe_tcp_port=5514 \
+     -v kibana_instances=1 \
+     -v kibana_vm_type=minimal \
+     -v kibana_network=default \
+     -v kibana_azs="[z1, z2, z3]" \
+     -v kibana_username=admin \
      --no-redact
