@@ -11,9 +11,12 @@ bosh -d elastic-stack deploy elastic-stack-bosh-deployment/elastic-stack.yml \
      -o elastic-stack-bosh-deployment/ops-files/elasticsearch-add-data-nodes.yml \
      -o elastic-stack-bosh-deployment/ops-files/elasticsearch-add-plugins-master.yml \
      -o elastic-stack-bosh-deployment/ops-files/elasticsearch-add-plugins-data.yml \
+     -o elastic-stack-bosh-deployment/ops-files/elasticsearch-https-and-basic-auth.yml \
      -o elastic-stack-bosh-deployment/ops-files/logstash-add-lb.yml \
      -o elastic-stack-bosh-deployment/ops-files/logstash-readiness-probe.yml \
+     -o elastic-stack-bosh-deployment/ops-files/logstash-tls.yml \
      -o elastic-stack-bosh-deployment/ops-files/kibana-https-and-basic-auth.yml \
+     -o elastic-stack-bosh-deployment/ops-files/kibana-elasticsearch-basic-auth.yml \
      --var-file logstash.conf=logstash.conf \
      -o <(cat <<EOF
 - type: replace
@@ -39,6 +42,7 @@ EOF) \
      -v elasticsearch_data_disk_type=5120 \
      -v elasticsearch_data_network=default \
      -v elasticsearch_data_azs="[z1, z2, z3]" \
+     -v elasticsearch_username=admin \
      -v logstash_instances=1 \
      -v logstash_vm_type=minimal \
      -v logstash_disk_type=5120 \
@@ -51,4 +55,5 @@ EOF) \
      -v kibana_network=default \
      -v kibana_azs="[z1, z2, z3]" \
      -v kibana_username=admin \
+     -v kibana_elasticsearch_ssl_verification_mode=none \
      --no-redact
