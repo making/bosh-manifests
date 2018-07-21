@@ -1,0 +1,10 @@
+# bosh update-cloud-config <(bosh cloud-config) -o ops-files/cloud-config-prometheus-add-lb.yml
+- type: replace
+  path: /vm_extensions/name=nginx-lb?
+  value:
+    name: nginx-lb
+    cloud_properties:
+      lb_target_groups:
+      - demo-prometheus
+      - demo-alertmanager
+      - demo-grafana

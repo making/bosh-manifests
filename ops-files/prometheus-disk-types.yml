@@ -1,0 +1,15 @@
+- type: remove
+  path: /instance_groups/name=prometheus2/persistent_disk
+- type: remove
+  path: /instance_groups/name=grafana/persistent_disk
+- type: remove
+  path: /instance_groups/name=alertmanager/persistent_disk
+- type: replace
+  path: /instance_groups/name=prometheus2/persistent_disk_type?
+  value: "1024"
+- type: replace
+  path: /instance_groups/name=grafana/persistent_disk_type?
+  value: "1024"
+- type: replace
+  path: /instance_groups/name=alertmanager/persistent_disk_type?
+  value: "1024"
