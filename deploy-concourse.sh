@@ -5,11 +5,12 @@ bosh deploy -d concourse concourse-deployment/cluster/concourse.yml \
      -o concourse-deployment/cluster/operations/static-web.yml \
      -o concourse-deployment/cluster/operations/basic-auth.yml \
      -o concourse-deployment/cluster/operations/external-postgres.yml \
-     -o concourse-deployment/cluster/operations/vault-tls-cert-auth.yml \
      -o ops-files/concourse-emtpy-certs-path.yml \
      -o ops-files/use-specific-stemcell.yml \
+     -o ops-files/concourse-teams.yml \
+     -o ops-files/concourse-variables.yml \
      -o prometheus-boshrelease/manifests/operators/concourse/enable-prometheus-metrics.yml \
-     -v stemcell_version="3468.21" \
+     -v stemcell_version="97" \
      -v web_ip=10.244.1.120 \
      -v external_url=https://concourse.ik.am \
      -v network_name=default \
@@ -34,6 +35,7 @@ bosh deploy -d concourse concourse-deployment/cluster/concourse.yml \
      --var-file vault_cert.private_key=<(credhub get -n /bosh-lite/vault/concourse-tls -j | jq -r .value.private_key) \
      --no-redact
 
+#     -o concourse-deployment/cluster/operations/vault-tls-cert-auth.yml \
 # -o ops-files/concourse-credhub.yml \
 # -o ops-files/concourse-credhub-external-postgres.yml \
 # -o ops-files/concourse-variables.yml \
