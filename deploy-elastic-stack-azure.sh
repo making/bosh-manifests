@@ -13,6 +13,8 @@ bosh -d elastic-stack deploy elastic-stack-bosh-deployment/elastic-stack.yml \
      -o elastic-stack-bosh-deployment/ops-files/elasticsearch-https-and-basic-auth.yml \
      -o elastic-stack-bosh-deployment/ops-files/logstash-readiness-probe.yml \
      -o elastic-stack-bosh-deployment/ops-files/logstash-tls.yml \
+     -o elastic-stack-bosh-deployment/ops-files/logstash-elasticsearch-https.yml \
+     -o elastic-stack-bosh-deployment/ops-files/logstash-elasticsearch-basic-auth.yml \
      -o elastic-stack-bosh-deployment/ops-files/kibana-https-and-basic-auth.yml \
      -o elastic-stack-bosh-deployment/ops-files/kibana-elasticsearch-https.yml \
      -o elastic-stack-bosh-deployment/ops-files/kibana-elasticsearch-basic-auth.yml \
@@ -47,19 +49,5 @@ bosh -d elastic-stack deploy elastic-stack-bosh-deployment/elastic-stack.yml \
      -v kibana_azs="[z1, z2, z3]" \
      -v kibana_username=admin \
      -v kibana_elasticsearch_ssl_verification_mode=none \
-     -o <(cat <<EOF
-- type: replace
-  path: /instance_groups/name=logstash/jobs/name=logstash/properties/elasticsearch?/username?
-  value: ((elasticsearch_username))
-- type: replace
-  path: /instance_groups/name=logstash/jobs/name=logstash/properties/elasticsearch?/password?
-  value: ((elasticsearch_password))
-- type: replace
-  path: /instance_groups/name=logstash/jobs/name=logstash/properties/elasticsearch?/protocol?
-  value: https
-- type: replace
-  path: /instance_groups/name=logstash/jobs/name=logstash/properties/elasticsearch?/port?
-  value: "443"
-EOF) \
      --no-redact \
      --vars-store=es-creds.yml \
