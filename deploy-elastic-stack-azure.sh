@@ -18,6 +18,8 @@ bosh -d elastic-stack deploy elastic-stack-bosh-deployment/elastic-stack.yml \
      -o elastic-stack-bosh-deployment/ops-files/kibana-https-and-basic-auth.yml \
      -o elastic-stack-bosh-deployment/ops-files/kibana-elasticsearch-https.yml \
      -o elastic-stack-bosh-deployment/ops-files/kibana-elasticsearch-basic-auth.yml \
+     -o elastic-stack-bosh-deployment/ops-files/curator.yml \
+     -o elastic-stack-bosh-deployment/ops-files/curator-cron.yml \
      -o elastic-stack-bosh-deployment/ops-files/azure/elasticsearch-add-public-ip.yml \
      -o elastic-stack-bosh-deployment/ops-files/azure/logstash-add-public-ip.yml \
      -o elastic-stack-bosh-deployment/ops-files/azure/kibana-add-public-ip.yml \
@@ -49,5 +51,6 @@ bosh -d elastic-stack deploy elastic-stack-bosh-deployment/elastic-stack.yml \
      -v kibana_azs="[z1, z2, z3]" \
      -v kibana_username=admin \
      -v kibana_elasticsearch_ssl_verification_mode=none \
+     --var-file curator_actions=actions.yml \
      --no-redact \
      --vars-store=es-creds.yml \
