@@ -20,11 +20,12 @@ bosh -d elastic-stack deploy elastic-stack-bosh-deployment/elastic-stack.yml \
      -o elastic-stack-bosh-deployment/ops-files/kibana-elasticsearch-basic-auth.yml \
      -o elastic-stack-bosh-deployment/ops-files/curator.yml \
      -o elastic-stack-bosh-deployment/ops-files/curator-cron.yml \
+     -o elastic-stack-bosh-deployment/ops-files/elastalert.yml \
+     -o elastic-stack-bosh-deployment/ops-files/elastalert-rule-monitor-error-log.yml \
+     -o elastic-stack-bosh-deployment/ops-files/elasticsearch-share-link.yml \
      -o elastic-stack-bosh-deployment/ops-files/azure/elasticsearch-add-public-ip.yml \
      -o elastic-stack-bosh-deployment/ops-files/azure/logstash-add-public-ip.yml \
      -o elastic-stack-bosh-deployment/ops-files/azure/kibana-add-public-ip.yml \
-     -o elastic-stack-bosh-deployment/ops-files/elastalert.yml \
-     -o elastic-stack-bosh-deployment/ops-files/elastalert-rule-monitor-error-log.yml \
      --var-file logstash.conf=logstash.conf \
      -v elasticsearch_master_instances=1 \
      -v elasticsearch_master_vm_type=small \
@@ -55,5 +56,11 @@ bosh -d elastic-stack deploy elastic-stack-bosh-deployment/elastic-stack.yml \
      -v kibana_elasticsearch_ssl_verification_mode=none \
      --var-file curator_actions=actions.yml \
      -v slack_webhook_url=${SLACK_WEBHOOK_URL} \
+     --var-file nginx.certificate=${HOME}/gdrive/letsencrypt/ik.am/fullchain.pem \
+     --var-file nginx.private_key=${HOME}/gdrive/letsencrypt/ik.am/privkey.pem \
      --no-redact \
      --vars-store=es-creds.yml \
+     $@
+
+
+
