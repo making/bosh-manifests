@@ -14,12 +14,14 @@ instance_groups:
         node:
           allow_data: true
           allow_master: true
+        plugins:
+        - analysis-kuromoji: /var/vcap/packages/analysis-kuromoji/analysis-kuromoji.zip
     provides:
       elasticsearch:
         as: elasticsearch-master
         shared: true
     release: elasticsearch
-  - name: elasticsearch-plugins
+  - name: analysis-kuromoji
     release: elasticsearch
   - consumes:
       elasticsearch:
@@ -149,37 +151,37 @@ instance_groups:
 name: elastic-stack
 releases:
 - name: elasticsearch
-  sha1: dde1415cbbbfa40724821a67d1fbc2c253dfe95e
-  url: https://github.com/bosh-elastic-stack/elasticsearch-boshrelease/releases/download/0.8.1/elasticsearch-boshrelease-0.8.1.tgz
-  version: 0.8.1
+  sha1: ((elasticsearch_sha1))
+  url: https://github.com/bosh-elastic-stack/elasticsearch-boshrelease/releases/download/((elasticsearch_version))/elasticsearch-boshrelease-((elasticsearch_version)).tgz
+  version: ((elasticsearch_version))
 - name: logstash
-  sha1: 47e8ae623afd6f6d529d9e7c9d1512b9bec3f781
-  url: https://github.com/bosh-elastic-stack/logstash-boshrelease/releases/download/0.6.1/logstash-boshrelease-0.6.1.tgz
-  version: 0.6.1
+  sha1: ((logstash_sha1))
+  url: https://github.com/bosh-elastic-stack/logstash-boshrelease/releases/download/((logstash_version))/logstash-boshrelease-((logstash_version)).tgz
+  version: ((logstash_version))
 - name: kibana
-  sha1: 5efc89f349837a9f5d7281df38ecf0ddb675c3ad
-  url: https://github.com/bosh-elastic-stack/kibana-boshrelease/releases/download/0.7.1/kibana-boshrelease-0.7.1.tgz
-  version: 0.7.1
+  sha1: ((kibana_sha1))
+  url: https://github.com/bosh-elastic-stack/kibana-boshrelease/releases/download/((kibana_version))/kibana-boshrelease-((kibana_version)).tgz
+  version: ((kibana_version))
 - name: openjdk
-  sha1: d02566fb6d974de4b60bf44dc21e56422c7da3fd
-  url: https://github.com/making/openjdk-boshrelease/releases/download/8.0.1/openjdk-boshrelease-8.0.1.tgz
-  version: 8.0.1
+  sha1: ((openjdk_sha1))
+  url: https://github.com/making/openjdk-boshrelease/releases/download/((openjdk_version))/openjdk-boshrelease-((openjdk_version)).tgz
+  version: ((openjdk_version))
 - name: nginx
-  sha1: bf156c545c45ed4e57563274f91dbd433000d776
-  url: https://bosh.io/d/github.com/cloudfoundry-community/nginx-release?v=1.13.12
-  version: 1.13.12
+  sha1: ((nginx_sha1))
+  url: https://bosh.io/d/github.com/cloudfoundry-community/nginx-release?v=((nginx_version))
+  version: ((nginx_version))
 - name: curator
-  sha1: c3e0b3be3f362bacc6bb2f1beed116e00f892190
-  url: https://github.com/bosh-elastic-stack/curator-boshrelease/releases/download/0.2.0/curator-boshrelease-0.2.0.tgz
-  version: 0.2.0
+  sha1: ((curator_sha1))
+  url: https://github.com/bosh-elastic-stack/curator-boshrelease/releases/download/((curator_version))/curator-boshrelease-((curator_version)).tgz
+  version: ((curator_version))
 - name: cron
-  sha1: 69a98ea02ee5e8cc5a9ad2d6cd08ef0a7fa2c292
-  url: https://bosh.io/d/github.com/cloudfoundry-community/cron-boshrelease?v=1.1.3
-  version: 1.1.3
+  sha1: ((cron_sha1))
+  url: https://bosh.io/d/github.com/cloudfoundry-community/cron-boshrelease?v=((cron_version))
+  version: ((cron_version))
 - name: elastalert
-  sha1: f1c37995664c2311dc21cd78e21bd2c13f9fe3e6
-  url: https://github.com/bosh-elastic-stack/elastalert-boshrelease/releases/download/0.2.2/elastalert-boshrelease-0.2.2.tgz
-  version: 0.2.2
+  sha1: ((elastalert_sha1))
+  url: https://github.com/bosh-elastic-stack/elastalert-boshrelease/releases/download/((elastalert_version))/elastalert-boshrelease-((elastalert_version)).tgz
+  version: ((elastalert_version))
 stemcells:
 - alias: xenial
   os: ubuntu-xenial
