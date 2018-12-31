@@ -1,0 +1,226 @@
+instance_groups:
+- azs: ((elasticsearch_master_azs))
+  instances: ((elasticsearch_master_instances))
+  jobs:
+  - name: java
+    release: openjdk
+  - consumes:
+      elasticsearch:
+        from: elasticsearch-master
+    name: elasticsearch
+    properties:
+      elasticsearch:
+        heap_size: 2g
+        node:
+          allow_data: true
+          allow_master: true
+    provides:
+      elasticsearch:
+        as: elasticsearch-master
+        shared: true
+    release: elasticsearch
+  - name: elasticsearch-plugins
+    release: elasticsearch
+  - consumes:
+      elasticsearch:
+        from: elasticsearch-master
+    name: logstash
+    properties:
+      logstash:
+        conf: ((logstash.conf))
+        readiness_probe_http_port: ((logstash_readiness_probe_http_port))
+        readiness_probe_tcp_port: ((logstash_readiness_probe_tcp_port))
+        tls:
+          certificate: ((logstash_tls.certificate))
+          private_key: ((logstash_tls.private_key))
+    release: logstash
+  - consumes:
+      elasticsearch:
+        from: elasticsearch-master
+    name: kibana
+    properties:
+      kibana:
+        elasticsearch:
+        memory_limit: 30
+    release: kibana
+  - name: nginx
+    properties:
+      nginx_conf: |
+        user nobody vcap; # group vcap can read /var/vcap/jobs
+        worker_processes  1;
+        error_log /var/vcap/sys/log/nginx/error.log   warn;
+        events {
+          worker_connections  1024;
+        }
+        http {
+          server {
+            listen 80;
+            return 301 https://$host$request_uri;
+          }
+          server {
+            listen 443 default_server ssl;
+            ssl on;
+            ssl_certificate     /var/vcap/jobs/nginx/etc/ssl_chained.crt.pem;
+            ssl_certificate_key /var/vcap/jobs/nginx/etc/ssl.key.pem;
+            ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+
+            location / {
+              proxy_pass_request_headers on;
+              proxy_pass http://localhost:5601;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header Host $host;
+              proxy_set_header Authorization "";
+              proxy_http_version 1.1;
+              proxy_set_header Connection "";
+              proxy_buffering off;
+              client_max_body_size 0;
+              proxy_read_timeout 36000s;
+              proxy_redirect off;
+            }
+
+            auth_basic           "Kibana Basic Auth";
+            auth_basic_user_file /var/vcap/jobs/nginx/etc/htpasswd.conf;
+          }
+        }
+      pre_start: |
+        #!/bin/bash
+        JOB_NAME=nginx
+        BASE_DIR=/var/vcap
+        JOB_DIR=$BASE_DIR/jobs/$JOB_NAME
+        CONFIG_DIR=$JOB_DIR/etc
+        USER="((kibana_username))"
+        PASS="((kibana_password))"
+        echo "${USER}:$(echo "${PASS}" | openssl passwd -apr1 -stdin)" > ${CONFIG_DIR}/htpasswd.conf
+      ssl_chained_cert: ((nginx.certificate))
+      ssl_key: ((nginx.private_key))
+    release: nginx
+  - lifecycle: errand
+    name: curator
+    properties:
+      curator:
+        actions: ((curator_actions))
+    release: curator
+  - name: cron
+    properties:
+      cron:
+        entries:
+        - command: /var/vcap/jobs/curator/bin/run >> /var/vcap/sys/log/cron/curator.log
+          day: '*'
+          hour: "0"
+          minute: "0"
+          month: '*'
+          user: vcap
+          wday: '*'
+    release: cron
+  - name: elastalert
+    properties:
+      elastalert:
+        rules:
+        - alert:
+          - slack
+          filter:
+          - query:
+              query_string:
+                query: log:(ERROR)
+          index: logstash-*
+          name: monitor-error-log
+          num_events: 3
+          slack_webhook_url: ((slack_webhook_url))
+          timeframe:
+            minutes: 10
+          type: frequency
+    release: elastalert
+  name: elasticsearch-master
+  networks:
+  - default:
+    - dns
+    - gateway
+    name: ((elasticsearch_master_network))
+  - name: public
+    static_ips:
+    - ((elasticsearch_master_external_ip))
+  persistent_disk_type: ((elasticsearch_master_disk_type))
+  stemcell: xenial
+  update:
+    max_in_flight: 1
+    serial: true
+  vm_type: ((elasticsearch_master_vm_type))
+name: elastic-stack
+releases:
+- name: elasticsearch
+  sha1: dde1415cbbbfa40724821a67d1fbc2c253dfe95e
+  url: https://github.com/bosh-elastic-stack/elasticsearch-boshrelease/releases/download/0.8.1/elasticsearch-boshrelease-0.8.1.tgz
+  version: 0.8.1
+- name: logstash
+  sha1: 47e8ae623afd6f6d529d9e7c9d1512b9bec3f781
+  url: https://github.com/bosh-elastic-stack/logstash-boshrelease/releases/download/0.6.1/logstash-boshrelease-0.6.1.tgz
+  version: 0.6.1
+- name: kibana
+  sha1: 5efc89f349837a9f5d7281df38ecf0ddb675c3ad
+  url: https://github.com/bosh-elastic-stack/kibana-boshrelease/releases/download/0.7.1/kibana-boshrelease-0.7.1.tgz
+  version: 0.7.1
+- name: openjdk
+  sha1: d02566fb6d974de4b60bf44dc21e56422c7da3fd
+  url: https://github.com/making/openjdk-boshrelease/releases/download/8.0.1/openjdk-boshrelease-8.0.1.tgz
+  version: 8.0.1
+- name: nginx
+  sha1: bf156c545c45ed4e57563274f91dbd433000d776
+  url: https://bosh.io/d/github.com/cloudfoundry-community/nginx-release?v=1.13.12
+  version: 1.13.12
+- name: curator
+  sha1: c3e0b3be3f362bacc6bb2f1beed116e00f892190
+  url: https://github.com/bosh-elastic-stack/curator-boshrelease/releases/download/0.2.0/curator-boshrelease-0.2.0.tgz
+  version: 0.2.0
+- name: cron
+  sha1: 69a98ea02ee5e8cc5a9ad2d6cd08ef0a7fa2c292
+  url: https://bosh.io/d/github.com/cloudfoundry-community/cron-boshrelease?v=1.1.3
+  version: 1.1.3
+- name: elastalert
+  sha1: f1c37995664c2311dc21cd78e21bd2c13f9fe3e6
+  url: https://github.com/bosh-elastic-stack/elastalert-boshrelease/releases/download/0.2.2/elastalert-boshrelease-0.2.2.tgz
+  version: 0.2.2
+stemcells:
+- alias: xenial
+  os: ubuntu-xenial
+  version: latest
+update:
+  canaries: 1
+  canary_watch_time: 30000-600000
+  max_in_flight: 3
+  update_watch_time: 5000-600000
+variables:
+- name: elasticsearch_password
+  type: password
+- name: nginx_ca
+  options:
+    common_name: nginx_ca
+    is_ca: true
+  type: certificate
+- name: nginx
+  options:
+    alternative_names:
+    - '*.sslip.io'
+    - '*.ap-northeast-1.elb.amazonaws.com'
+    - '*.japaneast.cloudapp.azure.com'
+    - '*.kibana.default.elastic-stack.bosh'
+    ca: nginx_ca
+    common_name: 127.0.0.1
+  type: certificate
+- name: logstash_ca
+  options:
+    common_name: ca
+    is_ca: true
+  type: certificate
+- name: logstash_tls
+  options:
+    alternative_names:
+    - '*.sslip.io'
+    - '*.ap-northeast-1.elb.amazonaws.com'
+    - '*.japaneast.cloudapp.azure.com'
+    - '*.logstash.default.elastic-stack.bosh'
+    ca: logstash_ca
+    common_name: 127.0.0.1
+  type: certificate
+- name: kibana_password
+  type: password
