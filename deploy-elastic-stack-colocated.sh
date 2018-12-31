@@ -3,6 +3,7 @@
 source elastic-stack-azure-env.sh
 
 bosh -d elastic-stack deploy elk.yml \
+     -l elastic-stack-bosh-deployment/versions.yml \
      --var-file logstash.conf=syslog_standard.conf \
      -v elasticsearch_master_instances=1 \
      -v elasticsearch_master_vm_type=small \
