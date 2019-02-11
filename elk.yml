@@ -115,24 +115,24 @@ instance_groups:
           user: vcap
           wday: '*'
     release: cron
-  - name: elastalert
-    properties:
-      elastalert:
-        rules:
-        - alert:
-          - slack
-          filter:
-          - query:
-              query_string:
-                query: log:(ERROR)
-          index: logstash-*
-          name: monitor-error-log
-          num_events: 3
-          slack_webhook_url: ((slack_webhook_url))
-          timeframe:
-            minutes: 10
-          type: frequency
-    release: elastalert
+#  - name: elastalert
+#    properties:
+#      elastalert:
+#        rules:
+#        - alert:
+#          - slack
+#          filter:
+#          - query:
+#              query_string:
+#                query: log:(ERROR)
+#          index: logstash-*
+#          name: monitor-error-log
+#          num_events: 3
+#          slack_webhook_url: ((slack_webhook_url))
+#          timeframe:
+#            minutes: 10
+#          type: frequency
+#    release: elastalert
   name: elasticsearch-master
   networks:
   - default:
