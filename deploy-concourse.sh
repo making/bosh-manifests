@@ -10,9 +10,29 @@ bosh deploy -d concourse concourse-deployment/cluster/concourse.yml \
      -o ops-files/concourse-teams.yml \
      -o ops-files/concourse-variables.yml \
      -o prometheus-boshrelease/manifests/operators/concourse/enable-prometheus-metrics.yml \
+     -o <(cat <<EOF
+- type: replace
+  path: /releases/name=concourse/url
+  value: https://192-168-11-108.sslip.io:9000/public/concourse-4.2.3.tgz
+- type: replace
+  path: /releases/name=concourse/version
+  value: 4.2.3
+- type: replace
+  path: /releases/name=concourse/sha1
+  value: 0e726361c87aa4225f1a78109cb0b7dfecd1dacd
+- type: replace
+  path: /releases/name=garden-runc/url
+  value: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=1.18.2
+- type: replace
+  path: /releases/name=garden-runc/version
+  value: 1.18.2
+- type: replace
+  path: /releases/name=garden-runc/sha1
+  value: f761349dfe829fb2e17ab53eb058267209275038
+EOF) \
      -v stemcell_version="97" \
      -v web_ip=10.244.1.120 \
-     -v external_url=https://concourse.ik.am \
+     -v external_url=https://concourse.ik.am:14161 \
      -v network_name=default \
      -v web_vm_type=default \
      -v db_vm_type=default \
