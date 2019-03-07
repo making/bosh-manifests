@@ -5,30 +5,14 @@ bosh deploy -d concourse concourse-deployment/cluster/concourse.yml \
      -o concourse-deployment/cluster/operations/static-web.yml \
      -o concourse-deployment/cluster/operations/basic-auth.yml \
      -o concourse-deployment/cluster/operations/external-postgres.yml \
-     -o ops-files/concourse-emtpy-certs-path.yml \
      -o ops-files/use-specific-stemcell.yml \
      -o ops-files/concourse-teams.yml \
      -o ops-files/concourse-variables.yml \
-     -o prometheus-boshrelease/manifests/operators/concourse/enable-prometheus-metrics.yml \
+     -o ops-files/concourse-prometheus.yml \
      -o <(cat <<EOF
 - type: replace
-  path: /releases/name=concourse/url
-  value: https://192-168-11-108.sslip.io:9000/public/concourse-4.2.3.tgz
-- type: replace
-  path: /releases/name=concourse/version
-  value: 4.2.3
-- type: replace
-  path: /releases/name=concourse/sha1
-  value: 0e726361c87aa4225f1a78109cb0b7dfecd1dacd
-- type: replace
-  path: /releases/name=garden-runc/url
-  value: https://bosh.io/d/github.com/cloudfoundry/garden-runc-release?v=1.18.2
-- type: replace
-  path: /releases/name=garden-runc/version
-  value: 1.18.2
-- type: replace
-  path: /releases/name=garden-runc/sha1
-  value: f761349dfe829fb2e17ab53eb058267209275038
+  path: /releases/name=bpm/url
+  value: https://bosh.io/d/github.com/cloudfoundry-incubator/bpm-release?v=1.0.3
 EOF) \
      -v stemcell_version="97" \
      -v web_ip=10.244.1.120 \
