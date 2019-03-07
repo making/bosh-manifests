@@ -26,17 +26,6 @@ EOF) \
      -v postgres_host=192.168.220.40 \
      -v postgres_port=5432 \
      -v postgres_role=atc \
-     -v credhub_url=https://10.244.1.100:8844 \
-     -v credhub-ip=10.244.1.100 \
-     -v uaa-url=https://192.168.50.6:8443 \
-     --var-file uaa-tls.ca=<(bosh int bosh-lite-creds.yml --path /uaa_ssl/ca) \
-     --var-file uaa-jwt.public_key=<(bosh int bosh-lite-creds.yml --path /uaa_jwt_signing_key/public_key) \
-     -v credhub_client_id=director_to_credhub \
-     -v credhub_client_secret=`bosh int bosh-lite-creds.yml --path /uaa_clients_director_to_credhub` \
-     -v vault_url=https://10.244.0.98:8200 \
-     --var-file vault_cert.ca=<(credhub get -n /bosh-lite/vault/concourse-tls -j | jq -r .value.ca) \
-     --var-file vault_cert.certificate=<(credhub get -n /bosh-lite/vault/concourse-tls -j | jq -r .value.certificate) \
-     --var-file vault_cert.private_key=<(credhub get -n /bosh-lite/vault/concourse-tls -j | jq -r .value.private_key) \
      --no-redact
 
 #     -o concourse-deployment/cluster/operations/vault-tls-cert-auth.yml \
