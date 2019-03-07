@@ -10,9 +10,6 @@ bosh deploy -d concourse concourse-deployment/cluster/concourse.yml \
      -o ops-files/concourse-variables.yml \
      -o ops-files/concourse-prometheus.yml \
      -o <(cat <<EOF
-- type: replace
-  path: /releases/name=bpm/url
-  value: https://bosh.io/d/github.com/cloudfoundry-incubator/bpm-release?v=1.0.3
 EOF) \
      -v stemcell_version="97" \
      -v web_ip=10.244.1.120 \
