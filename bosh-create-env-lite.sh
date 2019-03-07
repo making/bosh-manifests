@@ -10,6 +10,8 @@ bosh create-env bosh-deployment/bosh.yml \
   -o bosh-deployment/jumpbox-user.yml \
   -o ops-files/director-size-lite.yml \
   -o ops-files/datadog-for-create-env.yml \
+  -o ops-files/bosh-director-extern.yml \
+  -o ops-files/director-node-exporter.yml \
   -o prometheus-boshrelease/manifests/operators/bosh/add-bosh-exporter-uaa-clients.yml \
   --vars-store bosh-lite-creds.yml \
   -v director_name=bosh-lite \
@@ -19,4 +21,5 @@ bosh create-env bosh-deployment/bosh.yml \
   -v outbound_network_name=NatNetwork \
   -v datadog-hostname=bosh-lite \
   -v datadog-api-key=${DD_API_KEY} \
-  --state bosh-lite-state.json
+  --state bosh-lite-state.json --recreate \
+  --recreate
