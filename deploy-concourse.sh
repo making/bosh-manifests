@@ -5,6 +5,7 @@ bosh deploy -d concourse concourse-deployment/cluster/concourse.yml \
      -o concourse-deployment/cluster/operations/static-web.yml \
      -o concourse-deployment/cluster/operations/basic-auth.yml \
      -o concourse-deployment/cluster/operations/external-postgres.yml \
+     -o concourse-deployment/cluster/operations/enable-global-resources.yml \
      -o ops-files/use-specific-stemcell.yml \
      -o ops-files/concourse-teams.yml \
      -o ops-files/concourse-variables.yml \
