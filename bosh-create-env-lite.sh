@@ -21,5 +21,5 @@ bosh create-env bosh-deployment/bosh.yml \
   -v outbound_network_name=NatNetwork \
   -v datadog-hostname=bosh-lite \
   -v datadog-api-key=${DD_API_KEY} \
-  --state bosh-lite-state.json --recreate \
-  --recreate
+  --state bosh-lite-state.json \
+  $@
