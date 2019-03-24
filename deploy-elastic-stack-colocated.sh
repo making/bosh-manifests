@@ -43,6 +43,7 @@ bosh -d elastic-stack deploy elk.yml \
      --var-file filter-99-cleanup.conf=logstash/filter-99-cleanup.conf \
      --var-file output-01-es.conf=logstash/output-01-es.conf \
      --var-file output-02-stdout.conf=logstash/output-02-stdout.conf \
+     -o elastic-stack-bosh-deployment/ops-files/elasticsearch-allow-ingest.yml \
      -o <(cat <<EOF
 - type: replace
   path: /instance_groups/name=elasticsearch-master/jobs/name=logstash/properties/logstash/pipelines?
@@ -119,10 +120,22 @@ bosh -d elastic-stack deploy elk.yml \
   path: /instance_groups/name=elasticsearch-master/jobs/name=logstash/properties/logstash/jvm?/heap_size
   value: 1g
 - type: replace
+  path: /instance_groups/name=elasticsearch-master/jobs/name=elasticsearch/properties/elasticsearch/config_options?
+  value:
+    xpack.monitoring.collection.enabled: true
+- type: replace
   path: /instance_groups/name=elasticsearch-master/jobs/name=kibana/properties/kibana/config_options?
   value:
     xpack.infra.enabled: true
     xpack.infra.sources.default.logAlias: "syslog-*"
+    xpack.monitoring.enabled: true
+    xpack.monitoring.kibana.collection.enabled: true
+- type: replace
+  path: /instance_groups/name=elasticsearch-master/jobs/name=logstash/properties/logstash/config_options?/xpack.monitoring.enabled
+  value: true
+- type: replace
+  path: /instance_groups/name=elasticsearch-master/jobs/name=logstash/properties/logstash/config_options?/xpack.monitoring.elasticsearch.url
+  value: __ES_HOSTS__
 - type: replace
   path: /releases/name=elasticsearch
   value:
