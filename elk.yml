@@ -29,7 +29,10 @@ instance_groups:
     name: logstash
     properties:
       logstash:
-        conf: ((logstash.conf))
+        pipelines:
+        - name: bosh
+          config: 
+            all: ((logstash.conf))
         readiness_probe_http_port: ((logstash_readiness_probe_http_port))
         readiness_probe_tcp_port: ((logstash_readiness_probe_tcp_port))
         tls:

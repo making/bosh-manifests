@@ -4,7 +4,6 @@ source elastic-stack-azure-env.sh
 
 bosh -d elastic-stack deploy elk.yml \
      -l elastic-stack-bosh-deployment/versions.yml \
-     --var-file logstash.conf=syslog_standard.conf \
      -v elasticsearch_master_instances=1 \
      -v elasticsearch_master_vm_type=small \
      -v elasticsearch_master_disk_type=10GB \
@@ -37,6 +36,113 @@ bosh -d elastic-stack deploy elk.yml \
      --var-file nginx.certificate=${HOME}/gdrive/letsencrypt/ik.am/fullchain.pem \
      --var-file nginx.private_key=${HOME}/gdrive/letsencrypt/ik.am/privkey.pem \
      --vars-store=es-creds.yml \
+     --var-file input-01-tcp.conf=logstash/input-01-tcp.conf \
+     --var-file filter-00-prefilter.conf=logstash/filter-00-prefilter.conf \
+     --var-file filter-01-syslog.conf=logstash/filter-01-syslog.conf \
+     --var-file filter-02-oratos.conf=logstash/filter-02-oratos.conf \
+     --var-file filter-99-cleanup.conf=logstash/filter-99-cleanup.conf \
+     --var-file output-01-es.conf=logstash/output-01-es.conf \
+     --var-file output-02-stdout.conf=logstash/output-02-stdout.conf \
+     -o <(cat <<EOF
+- type: replace
+  path: /instance_groups/name=elasticsearch-master/jobs/name=logstash/properties/logstash/pipelines?
+  value:
+  - name: oratos
+    config:
+      input-01-tcp: ((input-01-tcp.conf))
+      filter-00-prefilter: ((filter-00-prefilter.conf))
+      filter-01-syslog: ((filter-01-syslog.conf))
+      filter-02-oratos: ((filter-02-oratos.conf))
+      filter-99-cleanup: ((filter-99-cleanup.conf))
+      output-01-es: ((output-01-es.conf))
+      output-02-stdout: ((output-02-stdout.conf))
+- type: replace
+  path: /instance_groups/name=elasticsearch-master/jobs/-
+  value:
+    consumes:
+      elasticsearch:
+        from: elasticsearch-master
+    name: elasticsearch-index-templates
+    release: elasticsearch
+    lifecycle: errand
+    properties: 
+      elasticsearch:
+        index:
+          template:
+          - zero_replica: |
+              {
+                "index_patterns": ["syslog-*", "zipkin*", "elasticalert*"],
+                "settings": {
+                  "number_of_replicas": 0
+                }
+              }
+- type: replace
+  path: /instance_groups/name=elasticsearch-master/jobs/name=elasticsearch/properties/elasticsearch/plugins?/-
+  value: 
+    epository-s3: /var/vcap/packages/repository-s3/repository-s3.zip
+- type: replace
+  path: /instance_groups/name=elasticsearch-master/jobs/name=elasticsearch/properties/elasticsearch/plugin_install_opts?
+  value: 
+  - --batch
+- type: replace
+  path: /instance_groups/name=elasticsearch-master/jobs/-
+  value:
+    name: repository-s3
+    release: elasticsearch
+- type: replace
+  path: /instance_groups/name=elasticsearch-master/jobs/name=elasticsearch/properties/elasticsearch/jvm_options?
+  value: 
+  - -Des.allow_insecure_settings=true
+- type: replace
+  path: /instance_groups/name=elasticsearch-master/jobs/-
+  value:
+    name: elasticsearch-snapshot
+    release: elasticsearch
+    lifecycle: errand
+    consumes:
+      elasticsearch:
+        from: elasticsearch-master
+    properties:
+      elasticsearch:
+        snapshots:
+          type: s3
+          repository: ((elasticsearch-snapshot.repository))
+          settings:
+            bucket: ((elasticsearch-snapshot.bucket))
+            endpoint: ((elasticsearch-snapshot.endpoint))
+            access_key: ((elasticsearch-snapshot.access_key))
+            secret_key: ((elasticsearch-snapshot.secret_key))
+- type: replace
+  path: /instance_groups/name=elasticsearch-master/jobs/name=logstash/properties/logstash/config_options?/queue.type
+  value: persisted
+- type: replace
+  path: /instance_groups/name=elasticsearch-master/jobs/name=logstash/properties/logstash/jvm?/heap_size
+  value: 1g
+- type: replace
+  path: /instance_groups/name=elasticsearch-master/jobs/name=kibana/properties/kibana/config_options?
+  value:
+    xpack.infra.enabled: true
+    xpack.infra.sources.default.logAlias: "syslog-*"
+- type: replace
+  path: /releases/name=elasticsearch
+  value:
+    name: elasticsearch
+    sha1: 79a2cd84f85387de97c4a91b26f147e1773d8922
+    version: 0.18.0_el 
+- type: replace
+  path: /releases/name=logstash
+  value:
+    name: logstash
+    sha1: be3056d246b3eeb596f50b766f22d75361005e55
+    version: 0.10.1_el 
+- type: replace
+  path: /releases/name=kibana
+  value:
+    name: kibana
+    sha1: c161308b6a767c1c997708ce7389ddbe1df65bae
+    version: 0.11.1_el 
+
+EOF) \
      --no-redact \
      $@
 
