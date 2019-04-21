@@ -14,7 +14,7 @@ bosh deploy -d concourse concourse-deployment/cluster/concourse.yml \
 EOF) \
      -v stemcell_version="97" \
      -v web_ip=10.244.1.120 \
-     -v external_url=https://concourse.ik.am:14161 \
+     -v external_url=https://concourse.ik.am \
      -v network_name=default \
      -v web_vm_type=default \
      -v db_vm_type=default \
