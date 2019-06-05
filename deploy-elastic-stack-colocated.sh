@@ -46,6 +46,9 @@ bosh -d elastic-stack deploy elk.yml \
      -o elastic-stack-bosh-deployment/ops-files/elasticsearch-allow-ingest.yml \
      -o <(cat <<EOF
 - type: replace
+  path: /instance_groups/name=elasticsearch-master/jobs/name=elasticsearch/properties/elasticsearch/migrate_6_to_7?
+  value: true
+- type: replace
   path: /instance_groups/name=elasticsearch-master/jobs/name=logstash/properties/logstash/pipelines?
   value:
   - name: oratos
@@ -72,7 +75,7 @@ bosh -d elastic-stack deploy elk.yml \
           template:
           - zero_replica: |
               {
-                "index_patterns": ["syslog-*", "zipkin*", "elasticalert*"],
+                "index_patterns": ["syslog-*", "zipkin*", "elasticalert*", "request-log*"],
                 "settings": {
                   "number_of_replicas": 0
                 }
@@ -134,26 +137,26 @@ bosh -d elastic-stack deploy elk.yml \
   path: /instance_groups/name=elasticsearch-master/jobs/name=logstash/properties/logstash/config_options?/xpack.monitoring.enabled
   value: true
 - type: replace
-  path: /instance_groups/name=elasticsearch-master/jobs/name=logstash/properties/logstash/config_options?/xpack.monitoring.elasticsearch.url
+  path: /instance_groups/name=elasticsearch-master/jobs/name=logstash/properties/logstash/config_options?/xpack.monitoring.elasticsearch.hosts
   value: __ES_HOSTS__
 - type: replace
   path: /releases/name=elasticsearch
   value:
     name: elasticsearch
-    sha1: 79a2cd84f85387de97c4a91b26f147e1773d8922
-    version: 0.18.0_el 
+    sha1: fc3cb114b551c869d04aa999f7557f88d572bcc2
+    version: 0.21.1_el 
 - type: replace
   path: /releases/name=logstash
   value:
     name: logstash
-    sha1: be3056d246b3eeb596f50b766f22d75361005e55
-    version: 0.10.1_el 
+    sha1: a4255afc745fb454bd9a0c7604fe8e7b6aef8658
+    version: 0.13.1_el
 - type: replace
   path: /releases/name=kibana
   value:
     name: kibana
-    sha1: c161308b6a767c1c997708ce7389ddbe1df65bae
-    version: 0.11.1_el 
+    sha1: 3f0b6c415e1237fbb061d3b653c896709a0abe5b
+    version: 0.14.1_el
 
 EOF) \
      --no-redact \
